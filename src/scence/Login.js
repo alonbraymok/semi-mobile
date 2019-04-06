@@ -12,6 +12,9 @@ export default class Login extends Component {
         super(props)
         this.state = { email: '', password: ''}
     }
+    signInPressed = () => {
+        Actions.profile()
+    }
 
     signUpPressed = () => {
         Actions.signup()
@@ -32,7 +35,7 @@ export default class Login extends Component {
                    </View>
                </View>
                <View style={[ styles.center]}>
-                   <Button height={40} width={100} label={'Sign in'} onPress={ () => this.signUpPressed()}/>
+                   <Button height={40} width={100} label={'Sign in'} onPress={ () => this.signInPressed()}/>
                </View>
                <View style={[ styles.center]}>
                     <TouchableOpacity onPress={() => this.signUpPressed()}>

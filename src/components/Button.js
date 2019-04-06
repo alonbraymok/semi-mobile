@@ -14,7 +14,7 @@ export default class Button extends Component {
         return(
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={[ styles.conteinerStyle,styles.center, {height: this.props.height, width: this.props.width} ]}>
-                    <Text>{this.props.label}</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold'}}>{this.props.label}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -28,7 +28,7 @@ const styles = {
         borderWidth: 1,
         borderColor: 'blue',
         borderRadius: 10,
-        backgroundColor: '#30dada'
+        backgroundColor: '#0843a3'
     },
     center: {
         justifyContent: 'center', 

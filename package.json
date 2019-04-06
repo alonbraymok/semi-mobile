@@ -10,7 +10,9 @@
     "react": "16.8.3",
     "react-native": "0.59.3",
     "react-native-image-picker": "^0.28.1",
-    "react-native-router-flux": "^4.0.6"
+    "react-native-modal": "^9.0.0",
+    "react-native-router-flux": "^4.0.6",
+    "react-native-snap-carousel": "^3.7.5"
   },
   "devDependencies": {
     "@babel/core": "7.4.3",
