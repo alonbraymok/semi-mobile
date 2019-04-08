@@ -7,11 +7,15 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "^1.0.0",
     "react": "16.8.3",
     "react-native": "0.59.3",
+    "react-native-MultiSlider": "^0.2.1",
     "react-native-image-picker": "^0.28.1",
     "react-native-modal": "^9.0.0",
+    "react-native-range-slider": "^0.1.2",
     "react-native-router-flux": "^4.0.6",
+    "react-native-searchable-dropdown": "^1.0.6",
     "react-native-snap-carousel": "^3.7.5"
   },
   "devDependencies": {

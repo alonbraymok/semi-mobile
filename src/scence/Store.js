@@ -87,7 +87,7 @@ export default class Store extends Component {
                         </View>
                    </View>
                </View>
-               <View>
+                <View>
                     <FlatList 
                         data={this.products}
                         renderItem={ (item) => this.renderItem(item)}
