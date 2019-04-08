@@ -1,9 +1,11 @@
 
 import ProductService from "../services/ProductService";
+import {observable} from 'mobx'
+
 
 class ProductStore {
     
-    currentUser
+    @observable currentUser
 
     getCurrentUser = () => {
         return this.currentUser

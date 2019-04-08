@@ -6,10 +6,13 @@ import Profile from './scence/Profile';
 import Carousel from './components/Carousel';
 import Store from './scence/Store';
 import Search from './scence/Search';
+import ProductPage from './components/ProductPage';
+import RatingStar from './components/RatingStar';
 
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
+            <Scene key='prodectPage' component={ProductPage} /> 
             <Scene key='search' component={Search} />
             <Scene key='login' component={Login} />
             <Scene key='signup' component={Signup} />

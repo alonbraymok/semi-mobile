@@ -22,9 +22,10 @@ export default class Search extends Component {
     }
 
     componentWillMount = () => {
-        console.log('here..00')
-        axios.get('http://193.106.55.125/api/products/by-category/tools').then(res => console.log(res))
-        .catch(err => console.log(err))
+        // console.log('here..00')
+        // axios.get('http://193.106.55.125/api/products/by-category/tools').then(res => console.log(res))
+        // .catch(err => console.log(err))
+        productStore.getAllCategoties().then( res => { this.setState({ name: res.data.data })}, () => console.log('alon',sthis.state.name))
     } 
     items = [
         {
