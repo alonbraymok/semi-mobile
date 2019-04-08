@@ -8,6 +8,11 @@
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^1.0.0",
+    "axios": "^0.18.0",
+    "babel-plugin-transform-decorators-legacy": "1.3.5",
+    "babel-preset-react-native": "4.0.1",
+    "mobx": "5.9.4",
+    "mobx-react": "5.4.3",
     "react": "16.8.3",
     "react-native": "0.59.3",
     "react-native-MultiSlider": "^0.2.1",

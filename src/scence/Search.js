@@ -8,7 +8,11 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 
 import Slidder from '../components/Slidder';
 
+import ProductStore from '../stores/ProductStore';
+import ProductService from '../services/ProductService';
+import axios from 'axios'
 
+const productStore = ProductStore
 
 export default class Search extends Component {
 
@@ -16,6 +20,12 @@ export default class Search extends Component {
         super(props)
         this.state = { category: '', name: '', leftValue: 0, rightValue: 0.5,sliderValues:[0,0]}
     }
+
+    componentWillMount = () => {
+        console.log('here..00')
+        axios.get('http://193.106.55.125/api/products/by-category/tools').then(res => console.log(res))
+        .catch(err => console.log(err))
+    } 
     items = [
         {
           id: 1,

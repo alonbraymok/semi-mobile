@@ -35,8 +35,8 @@ export default class Slidder extends Component {
                     selectedStyle={[styles.markerStyle]}
                 />        
                 <View style={[ { flexDirection:'row', justifyContent: 'center', alignItems: 'center'}]}>
-                    <Text style={styles.text}>{this.state.values[0]}{this.state.space}</Text>
-                    <Text style={[styles.text, {marginLeft: 120}]}>{this.state.values[1]}{this.state.space}</Text>
+                    <Text style={styles.text}>{this.state.values[0]}{this.state.space}$</Text>
+                    <Text style={[styles.text, {marginLeft: 120}]}>{this.state.values[1]}{this.state.space}$</Text>
                 </View>
                 
             </View>
