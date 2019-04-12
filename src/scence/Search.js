@@ -106,7 +106,7 @@ export default class Search extends Component {
                             <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
                        </View>
                        <View>
-                           <Button height={40} width={60} label={'Rent'} />
+                           <Button height={40} width={60} label={'Rent'} onPress={ () => Actions.prodectPage()}/>
                        </View>
                            
                    </View>

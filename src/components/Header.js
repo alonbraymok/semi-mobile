@@ -146,13 +146,15 @@ const styles = {
      backgroundColor: '#0843a3',   
      height: 60,
      paddingTop: 10, 
+     justifyContent: 'center'
   },
   arrowStyle:{
       height: 30, 
       width: 40, 
       margin: 3, 
       display: 'flex', 
-      paddingTop: 10
+      paddingTop: 10,
+      marginLeft: 60
   },
   messegeIcon : {
     height: 20, 

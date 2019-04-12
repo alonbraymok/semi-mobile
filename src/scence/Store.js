@@ -13,7 +13,7 @@ export default class Store extends Component {
 
     constructor(props){
         super(props)
-        this.state = { isModalVisible: false, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', 
+        this.state = { isModalVisible: false, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', phoneNumber: '052-8896390' ,
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
@@ -54,7 +54,7 @@ export default class Store extends Component {
                             <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
                        </View>
                        <View>
-                           <Button height={40} width={60} label={'Rent'} />
+                           <Button height={40} width={60} label={'Rent'} onPress={ () => Actions.prodectPage()} />
                        </View>
                            
                    </View>
@@ -70,13 +70,23 @@ export default class Store extends Component {
                <AddProductModal isModalVisible={this.state.isModalVisible} closeModal={this._toggleModal}/>
                <View style={[ styles.center]}>
                    <View style={[{flexDirection: 'row'}]}>
-                        <View style={{margin: 10}}>
+                        <View style={{marginRight: 30, marginVertical: 10}}>
                             <Image source={{ uri: this.state.profileImage}} style={{ height: 100, width: 100, borderRadius: 50}} />
                         </View>
                         <View>
                             <View style={[ styles.center]}>
                                 <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Store name</Text>
                             </View>
+                            <View>
+                            <View style={{ flexDirection: 'row'}}>
+                                <Image source={{ uri: 'https://cdn4.iconfinder.com/data/icons/rcons-phone/16/handset_round-2-512.png'}} style={{ width:20, height:20, marginRight:5}} />
+                                <Text>{this.state.phoneNumber}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row'}}>
+                                <Image source={{ uri: 'https://cdn3.iconfinder.com/data/icons/email-51/48/25-512.png'}} style={{ width:20, height:20, marginRight:5}} />
+                                <Text>{this.state.email}</Text>
+                            </View>
+                        </View>
                             <View>
                                 <TouchableOpacity onPress={this._toggleModal}>
                                     <Text >

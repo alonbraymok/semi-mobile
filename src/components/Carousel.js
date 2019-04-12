@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView,Text } from 'react-native'
 import Button from './Button';
-
+import RatingStar from './RatingStar';
+import { Actions } from 'react-native-router-flux';
 const deviceWidth = Dimensions.get('window').width
 const FIXED_BAR_WIDTH = 280
 const BAR_SPACE = 10
@@ -23,6 +24,8 @@ export default class Carousel extends Component {
         super(props)
     }
 
+  
+
   products = this.props.products 
 
   numItems = this.props.products.length
@@ -36,7 +39,7 @@ export default class Carousel extends Component {
       console.log(products, i)
       const thisImage = (
         <View>
-            <Image key={`products${i}`} source={{uri: products.image}} style={{ width: deviceWidth, height: 200 }} />
+            <Image key={`products${i}`} source={{uri: products.image}} style={{ width: deviceWidth, height: 150 }} />
             <View style={{ flexDirection: 'row', width: deviceWidth}}>
                 <View>
                     <View>
@@ -53,9 +56,19 @@ export default class Carousel extends Component {
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', marginLeft: 50}}>
-                    <Button height={50} width={100} label={'RENT!'}/>
+                    <Button height={50} width={100} label={'RENT!'} onPress={ () => Actions.productPage()}/>
                 </View>
-            </View>   
+            </View> 
+            <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
+            <View style={{margin: 5}}>
+                <Image source={{ uri: products.reviews.image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+                <Text style={{textAlign:'center', fontWeight:'bold'}}>{products.reviews.name}</Text>
+            </View>
+            <View style={[ ]}>
+                <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{products.reviews.content}</Text>
+                <RatingStar size={15}/>
+            </View>
+        </View>  
         </View>
       )
       imageArray.push(thisImage)

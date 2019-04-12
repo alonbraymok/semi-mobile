@@ -1,5 +1,5 @@
 import React , { Component } from 'react'
-import { View, Image, TextInput, TouchableOpacity, Text} from 'react-native'
+import { View, Image, TextInput, TouchableOpacity, Text, ScrollView} from 'react-native'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
@@ -17,11 +17,16 @@ export default class Profile extends Component {
     }
 
     products = [
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-    ]
+        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+         ]
+ 
 
     signUpPressed = () => {
         Actions.signup()
@@ -29,7 +34,7 @@ export default class Profile extends Component {
 
     render() {
         return(
-           <View>
+           <ScrollView>
                <Header search_hamburger headerText={'SEMI'} />
                <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
@@ -61,10 +66,10 @@ export default class Profile extends Component {
                </View>
                <View style={[ styles.center ]}>
                   <TouchableOpacity onPress={ () => Actions.store() }>
-                      <Text>Check out my all products </Text>
+                      <Text style={{fontWeight: '600'}}>Check out my all products! </Text>
                   </TouchableOpacity>
                </View>
-           </View>
+           </ScrollView>
         );
 
     }

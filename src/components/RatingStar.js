@@ -20,7 +20,7 @@ export default class RatingStar extends Component {
                     count={5}
                     reviews={['Bad','good']}
                     defaultRating={5}
-                    size={25}
+                    size={this.props.size}
                     style={{ height: 0 }}
                     showRating={false}
                 />

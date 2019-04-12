@@ -12,12 +12,12 @@ import RatingStar from './components/RatingStar';
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
-            <Scene key='prodectPage' component={ProductPage} /> 
             <Scene key='search' component={Search} />
+            <Scene key={'store'} component={Store} />
+            <Scene key={'profile'} component={Profile} />
+            <Scene key='prodectPage' component={ProductPage} /> 
             <Scene key='login' component={Login} />
             <Scene key='signup' component={Signup} />
-            <Scene key={'profile'} component={Profile} />
-            <Scene key={'store'} component={Store} />
             <Scene key={'carosel'} component={Carousel} />
         </Scene>
    </Router>

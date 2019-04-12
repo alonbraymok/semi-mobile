@@ -16,6 +16,7 @@
     "react": "16.8.3",
     "react-native": "0.59.3",
     "react-native-MultiSlider": "^0.2.1",
+    "react-native-date-picker": "^2.3.0",
     "react-native-image-picker": "^0.28.1",
     "react-native-modal": "^9.0.0",
     "react-native-range-slider": "^0.1.2",
