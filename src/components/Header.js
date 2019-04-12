@@ -55,7 +55,7 @@ export default class Header extends Component {
                    <Text style={styles.textStyle}>{this.props.headerText}</Text>
               </View>
               <View>
-                  <TouchableNativeFeedback onPress={ () => this.props.onPressRight()}>
+                  <TouchableNativeFeedback onPress={ () => this.props.onPressSearch()}>
                       <View style={{marginLeft: 60, alignItems: 'center',flexDirection: 'column'}}>
                           <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/social-media-essentials/30/Serch-512.png'}} style={[ styles.lineStyle ]}/>
                           

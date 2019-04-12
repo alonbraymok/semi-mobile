@@ -44,7 +44,7 @@ export default class Profile extends Component {
     render() {
         return(
            <ScrollView>
-               <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()}/>
+               <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()} onPressSearch={ () => Actions.search() }/>
                <View>
                <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
                 <View>
