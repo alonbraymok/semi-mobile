@@ -6,6 +6,7 @@ import Header from './Header';
 import RatingStar from './RatingStar';
 import { Actions } from 'react-native-router-flux';
 
+const SideMenu = require('react-native-side-menu');
 
 
 export default class ProductPage extends Component {
@@ -59,6 +60,7 @@ renderItem = (item) => {
 
     render() {
         return(
+            
             <View style={{backgroundColor: 'white', flex: 1 }}>
                 <Header back headerText={'SEMI'} onPress={ () => Actions.store()} />
                 <View style={{ flexDirection: 'row'}}>

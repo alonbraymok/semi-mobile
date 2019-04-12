@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel';
+import SideBarMenu from '../components/SideBarMenu';
 
 
 
@@ -12,7 +13,7 @@ export default class Profile extends Component {
 
     constructor(props){
         super(props)
-        this.state = { email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', 
+        this.state = { email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', show: 'none', 
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
@@ -27,7 +28,15 @@ export default class Profile extends Component {
          reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
          ]
  
-
+    taggleSideMenu = () =>{
+        if(this.state.show === 'none'){
+            this.setState({ show: 'flex' })
+        }else{
+            this.setState({ show: 'none'})
+        }
+        
+    }
+    
     signUpPressed = () => {
         Actions.signup()
     }
@@ -35,7 +44,28 @@ export default class Profile extends Component {
     render() {
         return(
            <ScrollView>
-               <Header search_hamburger headerText={'SEMI'} />
+               <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()}/>
+               <View>
+               <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
+                <View>
+                    <TouchableOpacity>
+                        <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/housing-interface-1/16/Power-512.png'}} style={{margin: 10, width: 30, height: 30 }} />
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <View style={{ margin: 10}}>
+                        <TouchableOpacity onPress={ () => Actions.rentedList() }> 
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ margin: 10}}>
+                        <TouchableOpacity>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+           </View>
+               </View>
                <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
                         <Image source={{ uri: this.state.profileImage}} style={{ height: 200, width: 150, borderRadius: 10}} />

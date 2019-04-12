@@ -47,8 +47,8 @@ export default class Header extends Component {
 
         <View style={styles.viewStyle}>
               <View>
-                  <TouchableOpacity onPress={() => this.props.onPressRight()} style={{ marginRight: 25}}>
-                        <Image source={require('../assets/hamburger.jpg')}  style={[ styles.messegeIcon ]} />
+                  <TouchableOpacity onPress={() => this.props.onPressHamburger()} style={{ marginRight: 70}}>
+                        <Image source={{ uri : 'https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png'}}  style={[ styles.messegeIcon ]} />
                   </TouchableOpacity>
               </View>
               <View>
@@ -56,8 +56,8 @@ export default class Header extends Component {
               </View>
               <View>
                   <TouchableNativeFeedback onPress={ () => this.props.onPressRight()}>
-                      <View style={{marginLeft: 30, alignItems: 'center',flexDirection: 'column'}}>
-                          <Image source={require('../assets/search.jpg')} style={[ styles.lineStyle ]}/>
+                      <View style={{marginLeft: 60, alignItems: 'center',flexDirection: 'column'}}>
+                          <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/social-media-essentials/30/Serch-512.png'}} style={[ styles.lineStyle ]}/>
                           
                         </View>
                   </TouchableNativeFeedback>
@@ -161,8 +161,8 @@ const styles = {
     width: 30
   },
   lineStyle: {
-    height: 30, 
-    width: 30, 
+    height: 50, 
+    width: 50, 
     margin: 3, 
   },
   searchStyle: {

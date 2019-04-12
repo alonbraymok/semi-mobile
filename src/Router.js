@@ -7,16 +7,21 @@ import Carousel from './components/Carousel';
 import Store from './scence/Store';
 import Search from './scence/Search';
 import ProductPage from './components/ProductPage';
-import RatingStar from './components/RatingStar';
+import SideBarMenu from './components/SideBarMenu';
+import RentedList from './scence/RentedList';
+import CreateStore from './scence/CreateStore';
 
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
+            <Scene key='login' component={Login} />
+            <Scene key='createStore' component={CreateStore} />
+            <Scene key={'profile'} component={Profile} />
+            <Scene key='list' component={SideBarMenu}/>
+            <Scene key='rentedList' component={RentedList} />
             <Scene key='search' component={Search} />
             <Scene key={'store'} component={Store} />
-            <Scene key={'profile'} component={Profile} />
             <Scene key='prodectPage' component={ProductPage} /> 
-            <Scene key='login' component={Login} />
             <Scene key='signup' component={Signup} />
             <Scene key={'carosel'} component={Carousel} />
         </Scene>

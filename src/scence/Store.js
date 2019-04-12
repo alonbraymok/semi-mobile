@@ -78,18 +78,18 @@ export default class Store extends Component {
                                 <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Store name</Text>
                             </View>
                             <View>
-                            <View style={{ flexDirection: 'row'}}>
+                            <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn4.iconfinder.com/data/icons/rcons-phone/16/handset_round-2-512.png'}} style={{ width:20, height:20, marginRight:5}} />
                                 <Text>{this.state.phoneNumber}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row'}}>
+                            <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn3.iconfinder.com/data/icons/email-51/48/25-512.png'}} style={{ width:20, height:20, marginRight:5}} />
                                 <Text>{this.state.email}</Text>
                             </View>
                         </View>
-                            <View>
+                            <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5}}>
                                 <TouchableOpacity onPress={this._toggleModal}>
-                                    <Text >
+                                    <Text style={{ textAlign: 'center', fontWeight: 'bold'}}>
                                         Add New Product
                                     </Text>
                                 </TouchableOpacity>
