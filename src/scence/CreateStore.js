@@ -4,8 +4,11 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
 
 
+const userStore = rootStores[UserStore];
 export default class CreateStore extends Component {
 
     constructor(props){
@@ -14,6 +17,11 @@ export default class CreateStore extends Component {
     }
 
     createStore = () => {
+        store = {
+            name: this.state.storeName,
+            description: this.state.storeDesc
+        }
+        userStore.createStore(store)
         Actions.profile()
     }
 

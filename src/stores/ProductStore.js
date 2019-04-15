@@ -1,22 +1,36 @@
 
 import ProductService from "../services/ProductService";
-import {observable} from 'mobx'
+import {observable, action} from 'mobx'
 
 
 class ProductStore {
     
-    @observable currentUser
+    constructor() {}
+    
+    @observable productBuffer
 
-    getCurrentUser = () => {
-        return this.currentUser
-    }
-    setCurrentUser = (data) => {
-        this.currentUser = data
-    }
     getAllCategoties = () => {
         return ProductService.getAllCategoties()
+    }
+
+    createNewProduct = (product) => {
+        return ProductService.createNewProduct(product)
+    }
+    getAllNameOfProductsCategory = (category) => {
+        return ProductService.getAllNameOfProductsCategory(category)
+    }
+    @action
+    setProductBuffer = (product) => {
+        this.productBuffer = product
+    }
+    @action
+    getProductBuffer = () => {
+        return this.productBuffer
+    }
+    searchProducts = (product) => {
+        return ProductService.searchProducts(product)
     }
     
 }
 
-export default new ProductStore()
+export default ProductStore;

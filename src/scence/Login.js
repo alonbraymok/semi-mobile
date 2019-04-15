@@ -3,16 +3,22 @@ import { View, Image, TextInput, TouchableOpacity, Text} from 'react-native'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
 
 
-
+const userStore = rootStores[UserStore];
 export default class Login extends Component {
 
     constructor(props){
         super(props)
-        this.state = { email: '', password: ''}
+        this.state = { email: 'test@test.com', password: '123456'}
     }
     signInPressed = () => {
+        userStore.signin(this.state.email, this.state.password).then( response => {
+            console.log(response)
+            userStore.setCurrentUser(response.data.data)
+        }).catch( error => console.log(error))
         Actions.profile()
     }
 

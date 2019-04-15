@@ -5,17 +5,18 @@ import Button from './Button';
 import Header from './Header';
 import RatingStar from './RatingStar';
 import { Actions } from 'react-native-router-flux';
+import ProductStore from '../stores/ProductStore';
+import rootStores from '../stores';
 
-const SideMenu = require('react-native-side-menu');
 
-
+const productStore = rootStores[ProductStore];
 export default class ProductPage extends Component {
 
     constructor(props){
         super(props)
-        this.state={startDate: '', endDate: ''}
+        this.state={startDate: '', endDate: '',product: ''}
     }
-
+    
     product = { name: 'skate', category:'extrem', price: 12, description:'from a doctor', starts: 4, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'}
     seller = { name: 'eliran hasin', email: 'eliranH26@gmail.com', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4', phoneNumber: '052-8896390'}
     reviews = [{name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'},
@@ -24,6 +25,12 @@ export default class ProductPage extends Component {
     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
 ]
+
+componentDidMount = () => {
+    product = productStore.getProductBuffer()
+    this.setState({ product })
+}
+
 
 showAlert= () => {
     Alert.alert(

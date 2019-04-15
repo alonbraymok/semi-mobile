@@ -6,13 +6,24 @@ import axios from 'axios';
     
     signin = (email, password) => {        
         const body = { email, password }
-             return axios.post('http://192.168.68.102:3000/auth/login', body)
+             return axios.post('http://semi.webo-tech.com/api/auth/login', body)
     }
 
     signup = (user) => {
         console.log(user)
-        const body = { user }
-            return axios.post('http://192.168.68.102:3000/auth/signup', body)
+        const body = {...user }
+            return axios.post('http://semi.webo-tech.com/api/auth/register', body)
+    }
+    logout = (email) => {
+        const body = {...email }
+        return axios.post('http://semi.webo-tech.com/api/auth/logout', body) 
+    }
+    getUserRentedList = (userID) => {
+        return axios.get(`http://semi.webo-tech.com/api/auth/getUserRentedList/${userID}`)
+    }
+    createStore = (store, userID) => {
+        const body = {...store, userID }
+        return axios.post('http://semi.webo-tech.com/api/auth/logout', body) 
     }
 
     

@@ -25,7 +25,7 @@ export default class Slidder extends Component {
         return (
             <View> 
                 <MultiSlider
-                    values={this.state.values}
+                    values={this.props.values}
                     sliderLength={420}
                     onValuesChange={this.multiSliderValuesChange}
                     min={0}

@@ -14,12 +14,12 @@ import CreateStore from './scence/CreateStore';
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
-            <Scene key='login' component={Login} />
             <Scene key='createStore' component={CreateStore} />
+            <Scene key='search' component={Search} />
+            <Scene key='login' component={Login} />
             <Scene key={'profile'} component={Profile} />
             <Scene key='list' component={SideBarMenu}/>
             <Scene key='rentedList' component={RentedList} />
-            <Scene key='search' component={Search} />
             <Scene key={'store'} component={Store} />
             <Scene key='prodectPage' component={ProductPage} /> 
             <Scene key='signup' component={Signup} />

@@ -1,7 +1,11 @@
+import UserService from "../services/UserService";
+
 
 
 class UserStore {
     
+    constructor(){}
+
     currentUser
 
 
@@ -10,8 +14,28 @@ class UserStore {
     }
     setCurrentUser = (data) => {
         this.currentUser = data
+        console.log('store current user', this.currentUser)
+    }
+
+    signin = (email, password) => {        
+             return UserService.signin(email, password)
+    }
+
+    signup = (user) => {
+            return UserService.signup(user)
+    }
+
+    logout = (email) => {
+            return UserService.logout(email)
+    }
+    getUserRentedList = () => {
+        return UserService.getUserRentedList(userID)
+    }
+    createStore = (store) => {
+        userID = this.currentUser.userID
+        UserService.createStore(store, userID)
     }
     
 }
 
-export default UserStore();
+export default UserStore;

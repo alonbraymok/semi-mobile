@@ -6,9 +6,11 @@ import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel';
 import SideBarMenu from '../components/SideBarMenu';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
 
 
-
+const userStore = rootStores[UserStore];
 export default class Profile extends Component {
 
     constructor(props){

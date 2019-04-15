@@ -14,7 +14,8 @@ export default class Store extends Component {
     constructor(props){
         super(props)
         this.state = { isModalVisible: false, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', phoneNumber: '052-8896390' ,
-                       storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
+                       storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'
+                    , newProduct: ''}
     }
 
     products = [
@@ -30,6 +31,7 @@ export default class Store extends Component {
 
     _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
+
 
 
     renderItem = (item) => {
@@ -67,7 +69,7 @@ export default class Store extends Component {
         return(
            <ScrollView>
                <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
-               <AddProductModal isModalVisible={this.state.isModalVisible} closeModal={this._toggleModal}/>
+               <AddProductModal isModalVisible={this.state.isModalVisible} closeModal={this._toggleModal} product={this.state.newProduct}/>
                <View style={[ styles.center]}>
                    <View style={[{flexDirection: 'row'}]}>
                         <View style={{marginRight: 30, marginVertical: 10}}>

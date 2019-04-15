@@ -9,24 +9,30 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import Slidder from '../components/Slidder';
 
 import ProductStore from '../stores/ProductStore';
-import ProductService from '../services/ProductService';
-import axios from 'axios'
+import rootStores from '../stores';
 
-const productStore = ProductStore
 
+const productStore = rootStores[ProductStore];
 export default class Search extends Component {
 
     constructor(props){
         super(props)
-        this.state = { category: '', name: '', leftValue: 0, rightValue: 0.5,sliderValues:[0,0]}
+        this.state = { categorys: [], productsCategory: '', leftValue: 0, rightValue: 0.5, sliderValues:[0,0] }
     }
 
     componentWillMount = () => {
         // console.log('here..00')
         // axios.get('http://193.106.55.125/api/products/by-category/tools').then(res => console.log(res))
         // .catch(err => console.log(err))
-        productStore.getAllCategoties().then( res => { this.setState({ name: res.data.data })}, () => console.log('alon',sthis.state.name))
-    } 
+        //productStore.getAllCategoties().then( res => { this.setState({ category: res.data.data })})
+    }
+    
+    getAllNameOfProductsCategory = (category) => {
+      productStore.getAllNameOfProductsCategory(category).then( (response) => {
+          this.setState({productsCategory: response.data.data })
+          .catch( (error) => console.log(error))
+      })
+    }
     items = [
         {
           id: 1,
@@ -81,8 +87,23 @@ export default class Search extends Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
     searchPressed = () => {
+      product = {
+        name: this.state.productName,
+        category: this.state.productCategory,
+        minPrice: this.state.sliderValues[0],
+        maxPrice: this.state.sliderValues[1]
+      }
+      productStore.searchProducts(product).then( rosponse => {
+        this.setState({ searchedProduct: response.data.data })
+      }).catch( error => console.log(error))
       console.log('search pressed')
     }
+
+    goToProductPage = (product) =>{
+      productStore.setProductBuffer(product)
+      Actions.prodectPage()
+    }
+    
 
     renderItem = (item) => {
         return(
@@ -106,7 +127,7 @@ export default class Search extends Component {
                             <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
                        </View>
                        <View>
-                           <Button height={40} width={60} label={'Rent'} onPress={ () => Actions.prodectPage()}/>
+                           <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)}/>
                        </View>
                            
                    </View>
@@ -122,7 +143,7 @@ export default class Search extends Component {
                <View>
                <SearchableDropdown
                     //onTextChange={text => alert(text)}
-                    onItemSelect={item => alert(JSON.stringify(item))}
+                    onItemSelect={item => this.getAllProductsCategory(item)}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
                     padding: 12,
@@ -149,7 +170,7 @@ export default class Search extends Component {
                <View>
                <SearchableDropdown
                     //onTextChange={text => alert(text)}
-                    onItemSelect={item => alert(JSON.stringify(item))}
+                    onItemSelect={item => this.setState({ })}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
                     padding: 12,

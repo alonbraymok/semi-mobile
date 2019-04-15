@@ -2,13 +2,22 @@ import React , { Component } from 'react'
 import { View, Text, FlatList, TouchableOpacity, ScrollView, Image} from 'react-native'
 import Header from '../components/Header';
 import { Actions } from 'react-native-router-flux';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
 
 
+const userStore = rootStores[UserStore];
 export default class RentedList extends Component {
 
     constructor(props){
         super(props)
         this.state = { products: ''}
+    }
+
+    componentDidMount = () => {
+        userStore.getUserRentedList().then( response => {
+            this.setState({ products: response.data.data})
+        })
     }
 
     buffer = [

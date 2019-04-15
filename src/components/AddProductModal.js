@@ -4,11 +4,16 @@ import Modal from "react-native-modal";
 import ImagePicker from 'react-native-image-picker';
 import Input from "./Input";
 import Button from "./Button";
+import UserStore from "../stores/UserStore";
+import ProductStore from "../stores/ProductStore";
+import rootStores from "../stores";
 
 
+const userStore = rootStores[UserStore];
+const productStore =rootStores[ProductStore];
 export default class AddProductModal extends Component {
   state = {
-    isModalVisible: false, productImage: require('../assets/uploadImage.png'), name: '', category: '', description: '', price: ''
+    isModalVisible: false, productImage: require('../assets/uploadImage.png'), name: 'a', category: 'a', description: 'a', price: 1
   };
 
     _toggleModal = () =>
@@ -26,6 +31,18 @@ export default class AddProductModal extends Component {
       }
 
       addProduct = () => {
+          console.log('user::', userStore.getCurrentUser())
+          product = {
+              username: userStore.getCurrentUser().username,
+              name: this.state.name,
+              category: this.state.category,
+              description: this.state.description,
+              price: this.state.price,
+              image: this.state.productImage
+          }
+          console.log(product)
+          productStore.createNewProduct(product).then( response => console.log(response))
+                                                .catch( error => console.log(error))
           this.props.closeModal()
       }
 
@@ -51,7 +68,7 @@ export default class AddProductModal extends Component {
                             <Input placeholder={'Description'} value={this.state.description} onChangeText={ (description) => this.setState({  description }) }/>
                         </View>
                         <View style={[ styles.center, styles.vMargin ]}>
-                            <Input placeholder={'Price'} value={this.state.price} onChangeText={ (price) => this.setState({  price }) }/>
+                            <Input placeholder={'Price per day'} value={this.state.price} onChangeText={ (price) => this.setState({  price }) }/>
                         </View>
                     </View>
                     <View style={[ styles.center ]}>

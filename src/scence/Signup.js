@@ -1,15 +1,18 @@
 import React , { Component } from 'react'
-import { View, Image, TextInput, TouchableOpacity, Text} from 'react-native'
+import { View, Image, ScrollView, TouchableOpacity, Text} from 'react-native'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
 
+const userStore = rootStores[userStore];
 export default class Signup extends Component {
 
     constructor(props){
         super(props)
-        this.state = { email: '', password: '', address: '', name: '', profileImage: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}
+        this.state = { username: 'alonbraymok', email: 'test@test.com', password: '123456', address: 'Tel aviv', firstname: 'alon', lastname: 'braymok', phoneNumber: '052-8896390',profileImage: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}
     }
 
     handleChoosePhoto = () => {
@@ -24,12 +27,16 @@ export default class Signup extends Component {
       }
 
     finishPressed = () => {
+        user = this.state
+        console.log(user)
+        userStore.signup(user).then( (response) => console.log(response) )
+        .catch( error => console.log(error))
         Actions.login()
     }
 
     render() {
         return(
-           <View style={{ backgroundColor: 'white'}}>
+           <ScrollView style={{ backgroundColor: 'white'}}>
                <View style={[ styles.center ]}>
                    <Text>REGISTRTION</Text>
                </View>
@@ -46,10 +53,19 @@ export default class Signup extends Component {
                        <Input placeholder={'Password'} value={this.state.password} onChangeText={ (password) => this.setState({  password }) }/>
                    </View>
                    <View style={[ styles.center, styles.vMargin ]}>
-                       <Input placeholder={'Address'} value={this.state.email} onChangeText={ (address) => this.setState({  address }) }/>
+                       <Input placeholder={'Address'} value={this.state.address} onChangeText={ (address) => this.setState({  address }) }/>
                    </View>
                    <View style={[ styles.center, styles.vMargin ]}>
-                       <Input placeholder={'Full name'} value={this.state.password} onChangeText={ (name) => this.setState({  name }) }/>
+                       <Input placeholder={'First name'} value={this.state.firstname} onChangeText={ (firstname) => this.setState({  firstname }) }/>
+                   </View>
+                   <View style={[ styles.center, styles.vMargin ]}>
+                       <Input placeholder={'Last name'} value={this.state.lastname} onChangeText={ (lastname) => this.setState({  lastname }) }/>
+                   </View>
+                   <View style={[ styles.center, styles.vMargin ]}>
+                       <Input placeholder={'Phone number'} value={this.state.phoneNumber} onChangeText={ (phoneNumber) => this.setState({  phoneNumber }) }/>
+                   </View>
+                   <View style={[ styles.center, styles.vMargin ]}>
+                       <Input placeholder={'User name'} value={this.state.username} onChangeText={ (username) => this.setState({  username }) }/>
                    </View>
                </View>
                <View style={[ styles.center]}>
@@ -59,7 +75,7 @@ export default class Signup extends Component {
                     <Image source={ require('../assets/signupImage.jpg')} style={[ styles.imageSize]}/>
                </View>
 
-           </View>
+           </ScrollView>
         );
 
     }
