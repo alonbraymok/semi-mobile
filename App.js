@@ -8,6 +8,8 @@
 
 import React, {Component} from 'react';
 import Routes from './src/Router';
+import { Provider } from 'mobx-react';
+import rootStores from './src/stores';
 
 
 
@@ -15,7 +17,9 @@ import Routes from './src/Router';
 export default class App extends Component{
   render() {
     return (
+      <Provider {...rootStores}>
       <Routes />
+      </Provider>
     );
   }
 }

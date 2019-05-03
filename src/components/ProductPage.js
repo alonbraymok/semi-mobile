@@ -28,6 +28,7 @@ export default class ProductPage extends Component {
 
 componentDidMount = () => {
     product = productStore.getProductBuffer()
+    console.log(product)
     this.setState({ product })
 }
 
@@ -72,21 +73,21 @@ renderItem = (item) => {
                 <Header back headerText={'SEMI'} onPress={ () => Actions.store()} />
                 <View style={{ flexDirection: 'row'}}>
                     <View style={{ margin: 10}}>
-                            <Image source={{ uri: this.product.image}} style={{ height: 200, width: 150}} />
+                            <Image source={{ uri: this.state.product.image}} style={{ height: 200, width: 150}} />
                     </View>
                     <View style={{ margin: 20}}>
                     <View style={[ styles.textMargin ]}>
-                        <Text style={[ styles.textStyle ]}>{this.product.name}</Text>
+                        <Text style={[ styles.textStyle ]}>{this.state.product.name}</Text>
                     </View>
                     <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                        <Text style={[ styles.textStyle ]}>{this.product.category}</Text>
+                        <Text style={[ styles.textStyle ]}>{this.state.product.category}</Text>
                         
                     </View>
                     <View style={[ styles.textMargin ]}>
-                        <Text style={[ styles.textStyle ]}>{this.product.description}</Text>
+                        <Text style={[ styles.textStyle ]}>{this.state.product.description}</Text>
                     </View>
                     <View style={[ styles.textMargin , {width: 200} ]}>
-                        <Text style={[ styles.textStyle ]}>Total Price: {this.product.price} $</Text>
+                        <Text style={[ styles.textStyle ]}>Total Price: {this.state.product.price} $</Text>
                     </View>
                     <View>
                         <RatingStar size={25}/>

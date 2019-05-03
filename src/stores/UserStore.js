@@ -17,7 +17,8 @@ class UserStore {
         console.log('store current user', this.currentUser)
     }
 
-    signin = (email, password) => {        
+    signin = (email, password) => {    
+           
              return UserService.signin(email, password)
     }
 
@@ -33,7 +34,7 @@ class UserStore {
     }
     createStore = (store) => {
         userID = this.currentUser.userID
-        UserService.createStore(store, userID)
+        return UserService.createStore(store, userID)
     }
     
 }

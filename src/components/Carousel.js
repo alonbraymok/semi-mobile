@@ -27,7 +27,6 @@ export default class Carousel extends Component {
   
 
   products = this.props.products 
-
   numItems = this.props.products.length
   itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)
   animVal = new Animated.Value(0)

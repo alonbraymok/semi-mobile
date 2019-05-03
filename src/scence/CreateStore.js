@@ -6,9 +6,11 @@ import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
+import { observer } from 'mobx-react';
 
 
 const userStore = rootStores[UserStore];
+@observer
 export default class CreateStore extends Component {
 
     constructor(props){
@@ -21,7 +23,7 @@ export default class CreateStore extends Component {
             name: this.state.storeName,
             description: this.state.storeDesc
         }
-        userStore.createStore(store)
+        userStore.createStore(store).then( response => console.log(response)).catch( err => console.log(err))
         Actions.profile()
     }
 

@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 
-const userStore = rootStores[userStore];
+const userStore = rootStores[UserStore];
 export default class Signup extends Component {
 
     constructor(props){

@@ -5,17 +5,31 @@ import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
 import AddProductModal from '../components/AddProductModal';
+import ProductStore from '../stores/ProductStore';
+import UserStore from '../stores/UserStore';
+import rootStores from '../stores';
+import {observer} from 'mobx-react';
+import Collapsible from 'react-native-collapsible';
 
 
 
-
+const productStore = rootStores[ProductStore];
+const userStore = rootStores[UserStore];
+@observer 
 export default class Store extends Component {
 
     constructor(props){
         super(props)
         this.state = { isModalVisible: false, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', phoneNumber: '052-8896390' ,
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'
-                    , newProduct: ''}
+                    , newProduct: '',user: '',activeSections: [],
+                    collapsed: true,
+                    multipleSelect: false,}
+    }
+
+
+    componentDidMount = () => {
+        this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user))
     }
 
     products = [
@@ -32,7 +46,13 @@ export default class Store extends Component {
     _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
-
+    goToProductPage = (product) =>{
+        productStore.setProductBuffer(product)
+        Actions.prodectPage({product})
+      }
+      toggleExpanded = () => {
+        this.setState({ collapsed: !this.state.collapsed });
+      };
 
     renderItem = (item) => {
         return(
@@ -55,9 +75,32 @@ export default class Store extends Component {
                        <View style={[ styles.textMargin , {width: 200} ]}>
                             <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
                        </View>
-                       <View>
-                           <Button height={40} width={60} label={'Rent'} onPress={ () => Actions.prodectPage()} />
+                       <View style={{flexDirection:'row', marginTop:20}}>
+                            <View>
+                                <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)} />
+                            </View>
+                            <View style={{marginLeft: 30}}>
+                                <TouchableOpacity>
+                                    <View style={{marginLeft: 20}}>
+                                        <Image source={{uri: 'https://image.flaticon.com/icons/png/512/707/707675.png'}} style={{width:30, height:30}} />
+                                    </View>
+                                    <Text style={{fontWeight:'bold'}}>comment</Text>
+                                </TouchableOpacity>
+                            </View>
                        </View>
+                       <TouchableOpacity onPress={ () => this.toggleExpanded()}>
+                            <View style={styles.header}>
+                            <Text style={styles.headerText}>Single Collapsible</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <Collapsible collapsed={this.state.collapsed} align="center">
+                            <View style={styles.content}>
+                            <Text>
+                                Bacon ipsum dolor amet chuck turducken landjaeger tongue spare
+                                ribs
+                            </Text>
+                            </View>
+                        </Collapsible>
                            
                    </View>
                </View>
@@ -82,11 +125,11 @@ export default class Store extends Component {
                             <View>
                             <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn4.iconfinder.com/data/icons/rcons-phone/16/handset_round-2-512.png'}} style={{ width:20, height:20, marginRight:5}} />
-                                <Text>{this.state.phoneNumber}</Text>
+                                <Text>{this.state.user.phone_number}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn3.iconfinder.com/data/icons/email-51/48/25-512.png'}} style={{ width:20, height:20, marginRight:5}} />
-                                <Text>{this.state.email}</Text>
+                                <Text>{this.state.user.email}</Text>
                             </View>
                         </View>
                             <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5}}>
@@ -101,7 +144,7 @@ export default class Store extends Component {
                </View>
                 <View>
                     <FlatList 
-                        data={this.products}
+                        data={this.state.user.products_for_rent}
                         renderItem={ (item) => this.renderItem(item)}
                     />
                 </View>

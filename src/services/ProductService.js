@@ -4,7 +4,8 @@ import axios from 'axios';
  class ProductService {
 
     getAllCategoties = () => {
-        return axios.get('http://193.106.55.125/api/products/by-category/tools')
+        console.log('herer')
+        return axios.get('http://semi.webo-tech.com/api/products/by-category/tools')
     }
     getAllNameOfProductsCategory = (category) => {
         return axios.get(`http://192.168.68.102:3000/api/products/getAllNameOfProductsCategory/${category}`)

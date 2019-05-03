@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
-
+import axios from 'axios';
 
 const userStore = rootStores[UserStore];
 export default class Login extends Component {
@@ -15,11 +15,26 @@ export default class Login extends Component {
         this.state = { email: 'test@test.com', password: '123456'}
     }
     signInPressed = () => {
+       
+        body = { email: this.state.email, password: this.state.password}
+        console.log(body)
+        axios.get('https://jsonplaceholder.typicode.com/todos/1').then( res => {
+            debugger
+            console.log(res)
+        }).catch( err => {
+            debugger
+            console.log(err)
+        })
         userStore.signin(this.state.email, this.state.password).then( response => {
             console.log(response)
+            debugger
             userStore.setCurrentUser(response.data.data)
-        }).catch( error => console.log(error))
-        Actions.profile()
+            Actions.profile()
+        }).catch( error => {
+            console.log(error)
+                debugger  
+        })
+       
     }
 
     signUpPressed = () => {

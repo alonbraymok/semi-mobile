@@ -3,13 +3,16 @@ import ProductService from "../services/ProductService";
 import {observable, action} from 'mobx'
 
 
+
 class ProductStore {
     
-    constructor() {}
+   
     
     @observable productBuffer
 
+    @action
     getAllCategoties = () => {
+        console.log('herer')
         return ProductService.getAllCategoties()
     }
 

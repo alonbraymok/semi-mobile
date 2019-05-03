@@ -10,9 +10,11 @@ import Slidder from '../components/Slidder';
 
 import ProductStore from '../stores/ProductStore';
 import rootStores from '../stores';
+import { observer } from 'mobx-react';
 
 
 const productStore = rootStores[ProductStore];
+@observer
 export default class Search extends Component {
 
     constructor(props){
@@ -21,10 +23,9 @@ export default class Search extends Component {
     }
 
     componentWillMount = () => {
-        // console.log('here..00')
-        // axios.get('http://193.106.55.125/api/products/by-category/tools').then(res => console.log(res))
-        // .catch(err => console.log(err))
-        //productStore.getAllCategoties().then( res => { this.setState({ category: res.data.data })})
+        productStore.getAllCategoties()
+        .then( res => { this.setState({ category: res.data.data })})
+        .catch( err => console.log(err))
     }
     
     getAllNameOfProductsCategory = (category) => {
@@ -69,14 +70,20 @@ export default class Search extends Component {
       ];
 
       products = [
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadvasdasd', name: 'prodcxvuct name', category: 'category', description: 'product dcxviscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product zxcvzxcname', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'catzxcvegory', description: 'product discxzcvription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'productcxvzxcv name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'productxczvxcv name', category: 'category', description: 'produxcvct discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'categcxvzory', description: 'product cxzdiscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product cxzvcxvname', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product dicxvzxscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
+
     ]
 
     setSliderValues = (value) => {
@@ -101,7 +108,7 @@ export default class Search extends Component {
 
     goToProductPage = (product) =>{
       productStore.setProductBuffer(product)
-      Actions.prodectPage()
+      Actions.prodectPage({product})
     }
     
 

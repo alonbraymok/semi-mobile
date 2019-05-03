@@ -8,18 +8,24 @@ import Carousel from '../components/Carousel';
 import SideBarMenu from '../components/SideBarMenu';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
+import {observer} from 'mobx-react'
 
 
 const userStore = rootStores[UserStore];
+@observer 
 export default class Profile extends Component {
 
     constructor(props){
         super(props)
-        this.state = { email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', show: 'none', 
+        this.state = { user:'', email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', show: 'none', 
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
-    products = [
+    componentDidMount = () => {
+        this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user)) 
+    }
+
+    products_to_rent = [
         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
          reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
          { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
@@ -44,29 +50,31 @@ export default class Profile extends Component {
     }
 
     render() {
-        return(
-           <ScrollView>
+        if(this.state.user){//this.state.user.store
+
+            return(
+                <ScrollView>
                <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()} onPressSearch={ () => Actions.search() }/>
                <View>
                <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
-                <View>
-                    <TouchableOpacity>
-                        <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/housing-interface-1/16/Power-512.png'}} style={{margin: 10, width: 30, height: 30 }} />
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <View style={{ margin: 10}}>
-                        <TouchableOpacity onPress={ () => Actions.rentedList() }> 
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ margin: 10}}>
+                    <View>
                         <TouchableOpacity>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
+                            <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/housing-interface-1/16/Power-512.png'}} style={{margin: 10, width: 30, height: 30 }} />
                         </TouchableOpacity>
                     </View>
+                    <View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.rentedList() }> 
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
-           </View>
                </View>
                <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
@@ -74,7 +82,7 @@ export default class Profile extends Component {
                    </View>
                    <View style={{ margin: 20}}>
                        <View style={[ styles.textMargin ]}>
-                            <Text style={[ styles.textStyle ]}>{this.state.name}</Text>
+                            <Text style={[ styles.textStyle ]}>{this.state.user.first_name} {this.state.user.last_name}</Text>
                        </View>
                        <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
                             <Text style={[ styles.textStyle ]}>{this.state.address}</Text>
@@ -83,7 +91,7 @@ export default class Profile extends Component {
                             </View>
                        </View>
                        <View style={[ styles.textMargin ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>{this.state.email}</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>{this.state.user.email}</Text>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{this.state.storeDescription}</Text>
@@ -94,7 +102,7 @@ export default class Profile extends Component {
                    <Text style={[ styles.storename ]}>My Store Name</Text>
                </View>
                <View style={[ styles.center ]}>
-                   <Carousel products={this.products}></Carousel>
+                   <Carousel products={this.products_to_rent}></Carousel>
                </View>
                <View style={[ styles.center ]}>
                   <TouchableOpacity onPress={ () => Actions.store() }>
@@ -103,9 +111,18 @@ export default class Profile extends Component {
                </View>
            </ScrollView>
         );
-
+    }else{
+        return(
+            <View style={{ justifyContent:'center', alignItems: 'center'}}>
+                <TouchableOpacity onPress={ () => Actions.createStore()}>
+                    <Text>Open your first store !</Text>
+                </TouchableOpacity>
+            </View>
+        )
     }
-
+        
+    }
+    
 }
 
 const styles = {
