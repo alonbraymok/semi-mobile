@@ -14,6 +14,7 @@ import axios from 'axios';
         console.log(user)
         console.log('herre') 
         const body = {...user }
+        console.log(body)
             return axios.post('http://semi.webo-tech.com/api/auth/register', body)
     }
     logout = () => {       

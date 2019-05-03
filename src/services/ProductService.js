@@ -5,10 +5,11 @@ import axios from 'axios';
 
     getAllCategoties = () => {
         console.log('herer')
-        return axios.get('http://semi.webo-tech.com/api/products/by-category/tools')
+        return axios.get('http://semi.webo-tech.com/api/products/categories')
     }
     getAllNameOfProductsCategory = (category) => {
-        return axios.get(`http://192.168.68.102:3000/api/products/getAllNameOfProductsCategory/${category}`)
+        console.log('categort before search::0', category)
+        return axios.get(`http://semi.webo-tech.com/api/products/by-category/${category.name}`)
     }
 
     rentProduct = (product, user) => {
@@ -30,6 +31,14 @@ import axios from 'axios';
     searchProducts = (product) => {
         body = { ...product }   
         return axios.post('http://semi.webo-tech.com/api/products/search', body)
+    }
+    addReview = (review) => {
+        body = { ... review }
+        return  axios.post('http://semi.webo-tech.com/api/products/review', body)
+    }
+    deleteProduct = (productID) => {
+        body = { ...productID }
+        return  axios.post('http://semi.webo-tech.com/api/products/addReview', body)
     }
 
     

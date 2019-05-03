@@ -33,6 +33,12 @@ class ProductStore {
     searchProducts = (product) => {
         return ProductService.searchProducts(product)
     }
+    addReview = (review) => {
+        return ProductService.addReview(review)
+    }
+    deleteProduct = (productID) => {
+        return ProductService.deleteProduct(productID)
+    }
     
 }
 

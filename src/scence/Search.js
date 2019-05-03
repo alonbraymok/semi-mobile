@@ -19,55 +19,56 @@ export default class Search extends Component {
 
     constructor(props){
         super(props)
-        this.state = { categorys: [], productName: '', productsCategory: '', leftValue: 0, rightValue: 0.5, sliderValues:[1000,8000], searchedProduct:[] }
+        this.state = {names: [], category:[], categorys: [], productName: '', productsCategory: '', leftValue: 0, rightValue: 0.5, sliderValues:[1000,8000], searchedProduct:[] }
     }
 
     componentWillMount = () => {
         productStore.getAllCategoties()
-        .then( res => { this.setState({ category: res.data.data })})
+        .then( res => { this.setState({ category: res.data.data }, () => this.setCategories() )  })
         .catch( err => console.log(err))
     }
     
+    setCategories = () => {
+      buffer=[]
+      this.state.category.forEach(item => {
+        category = {
+          id: 1,
+          name: item,
+        }
+        buffer.push(category)
+      })
+      this.setState({ category: buffer }, () => console.log('cat',this.state))
+      
+    }
+
+    setCategory = (category) => {
+      this.setState({ productsCategory: category }, () => {
+        this.getAllNameOfProductsCategory(this.state.productsCategory)
+      })
+    }
+
     getAllNameOfProductsCategory = (category) => {
+      console.log('---')
       productStore.getAllNameOfProductsCategory(category).then( (response) => {
-          this.setState({categorys: response.data.data })
+        console.log('res::', response)
+        this.setProdectName(response.data.data)
+        this.setState({ searchProducts: response.data.data}, ()=> console.log('sta?', this.state))
           .catch( (error) => console.log(error))
       })
     }
-    items = [
-        {
+
+    setProdectName = (array) => {
+      buffer=[]
+      array.forEach( (item) => {
+        name = {
           id: 1,
-          name: 'JavaScript',
-        },
-        {
-          id: 2,
-          name: 'Java',
-        },
-        {
-          id: 3,
-          name: 'Ruby',
-        },
-        {
-          id: 4,
-          name: 'React Native',
-        },
-        {
-          id: 5,
-          name: 'PHP',
-        },
-        {
-          id: 6,
-          name: 'Python',
-        },
-        {
-          id: 7,
-          name: 'Go',
-        },
-        {
-          id: 8,
-          name: 'Swift',
-        },
-      ];
+          name: item.name
+        }
+        buffer.push(name)
+      })
+      this.setState({ names: buffer})
+    }
+    
 
       products = [
         {id:'dsadvasdasd', name: 'prodcxvuct name', category: 'category', description: 'product dcxviscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
@@ -106,33 +107,42 @@ export default class Search extends Component {
       }).catch( error => console.log(error))
       console.log('search pressed')
     }
-
+    
     goToProductPage = (product) =>{
       productStore.setProductBuffer(product)
       Actions.prodectPage({product})
     }
     
+    findProduct = (productName) => {
+      buffer = []
+      this.setState({ productName }, () => {
+        buffer = this.state.searchProducts.filter( (item) => item.name === productName.name)
+
+      })
+      this.setState({ searchProducts: buffer})
+    }
 
     renderItem = (item) => {
+      console.log('item::', item)
         return(
             <View style={{borderTopWidth: 1 }}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
-                        <Image source={{ uri: item.item.image}} style={{ height: 200, width: 150}} />
+                        <Image source={{ uri: 'https://images.ctfassets.net/mx6ynh02r1ko/1AyjchEw0Q4OWUgAwy2yqG/55c6e32e8f63eb209f9a3112dd0f63aa/DE1A2564.jpg'}} style={{ height: 200, width: 150}} />
                    </View>
                    <View style={{ margin: 20}}>
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
                        </View>
                        <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                            <Text style={[ styles.textStyle ]}>{item.item.category}</Text>
+                            <Text style={[ styles.textStyle ]}>{item.item.category.name}</Text>
                             
                        </View>
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.plans[0].price} $</Text>
                        </View>
                        <View>
                            <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)}/>
@@ -151,8 +161,8 @@ export default class Search extends Component {
                
                <View>
                   <SearchableDropdown
-                    onTextChange={text => console.log(text)}
-                    onItemSelect={item => this.setState({ productsCategory: item })}
+                    onTextChange={text => this.setState({ productsCategory: text })}
+                    onItemSelect={item => this.setCategory(item)}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
                       padding: 12,
@@ -170,7 +180,7 @@ export default class Search extends Component {
                     }}
                     itemTextStyle={{ color: '#222' }}
                     itemsContainerStyle={{ maxHeight: 140 }}
-                    items={this.items}
+                    items={this.state.category}
                     defaultIndex={2}
                     placeholder="Category"
                     resetValue={false}
@@ -179,8 +189,8 @@ export default class Search extends Component {
                </View>
                <View>
                   <SearchableDropdown
-                    onTextChange={text => console.log(text)}
-                    onItemSelect={item => this.setState({ productName: item })}
+                    onTextChange={text => this.setState({ productsCategory: text })}
+                    onItemSelect={item => this.findProduct(item)}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
                       padding: 12,
@@ -198,7 +208,7 @@ export default class Search extends Component {
                     }}
                     itemTextStyle={{ color: '#222' }}
                     itemsContainerStyle={{ maxHeight: 140 }}
-                    items={this.items}
+                    items={this.state.names}
                     defaultIndex={2}
                     placeholder="Product name"
                     resetValue={false}
@@ -216,8 +226,9 @@ export default class Search extends Component {
               <View>
                 <ScrollView>
                   <FlatList 
-                      data={this.products}
+                      data={this.state.searchProducts}
                       renderItem={ (item) => this.renderItem(item)}
+                      extraData={this.state}
                   />
                   </ScrollView>
               </View>

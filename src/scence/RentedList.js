@@ -6,6 +6,7 @@ import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 
 
+
 const userStore = rootStores[UserStore];
 export default class RentedList extends Component {
 
@@ -15,9 +16,7 @@ export default class RentedList extends Component {
     }
 
     componentDidMount = () => {
-        userStore.getUserRentedList().then( response => {
-            this.setState({ products: response.data.data})
-        })
+        user = userStore.getCurrentUser()
     }
 
     buffer = [

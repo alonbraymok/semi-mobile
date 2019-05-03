@@ -98,7 +98,7 @@ renderItem = (item) => {
           };
           // optional property, too.
           let color = {
-            subColor: '#f0f0f0'
+            subColor: '#0843a3'
           };
 
 
@@ -122,7 +122,7 @@ renderItem = (item) => {
                         <Text style={[ styles.textStyle ]}>{this.state.product.description}</Text>
                     </View>
                     <View style={[ styles.textMargin , {width: 200} ]}>
-                        <Text style={[ styles.textStyle ]}>Total Price: {this.state.product.price} $</Text>
+                        <Text style={[ styles.textStyle ]}>Price per day: {this.state.product.price} $</Text>
                     </View>
                     <View>
                         <RatingStar size={25}/>

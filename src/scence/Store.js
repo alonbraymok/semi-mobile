@@ -10,6 +10,7 @@ import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 import {observer} from 'mobx-react';
 import RatingStar from '../components/RatingStar'
+const moment = require('moment');
 
 
 
@@ -59,11 +60,51 @@ export default class Store extends Component {
       toggleExpanded = () => {
         this.setState({ collapsed: !this.state.collapsed });
       };
-      AddComment = () => {
+
+
+      renderReview = (item) => {
+          return(
+              <View style={{}}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View>
+                        <View>
+                            <Image source={{uri: item.item.creator.profile_image}} style={{ width:30, height: 30}} />
+                        </View>
+                        <View>
+                            <Text>{item.item.creator.username}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text>{item.item.content}</Text>
+                    </View>
+                  </View>
+                  <View>
+                        <RatingStar size={15}/>
+                  </View>
+                  <View>
+                      <Text>{moment(item.item.createdAt).format('DD/MM/YY')}</Text>
+                  </View>
+              </View>
+          )
+      }
+
+      AddComment = (productID) => {
+          user = userStore.getCurrentUser()
+          content = this.state.newComment
+          review = {
+            productId: productID,             
+            username :user.username,               
+            stars: 3,
+            content: content
+              
+          }
+          console.log('review before sent::', review)
+          productStore.addReview(review).then( response => console.log('res::',response)).catch( error => console.log('err::',error))
           this.setState({ newComment: ''})
           console.log('commented')
       }
     renderItem = (item) => {
+        console.log('itemm:',item)
         return(
             <View style={{borderTopWidth: 1 , padding:5}}>
                   <View style={{ flexDirection: 'row'}}>
@@ -75,14 +116,14 @@ export default class Store extends Component {
                             <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
                        </View>
                        <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                            <Text style={[ styles.textStyle ]}>{item.item.category}</Text>
+                            <Text style={[ styles.textStyle ]}>{item.item.category.name}</Text>
                             
                        </View>
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.price} $</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>price per day:  $</Text>
                        </View>
                        <View style={{flexDirection:'row', marginTop:20}}>
                             <View>
@@ -102,6 +143,21 @@ export default class Store extends Component {
                        </View>                              
                    </View>
                </View>
+               <View>
+                    <ScrollView nestedScrollEnabled>
+                        <View>
+                            <Text>ReViews:</Text>
+                        </View>
+                        <View style={{ borderWidth: 2, padding:5, borderRadius:10}}>
+                            <FlatList 
+                                data={item.item.reviews}
+                                renderItem={ (item) => this.renderReview(item)}
+                                extraData={this.state}
+                                maxHeight={100}
+                            />
+                        </View>
+                    </ScrollView>
+               </View>
                <View style={{ height: this.state.expandeds[item.index] ? null : 0, overflow: 'hidden' }}>
                     <View>
                         <View>
@@ -112,7 +168,7 @@ export default class Store extends Component {
                                 <TextInput value={this.state.newComment} onChangeText={ (newComment) => this.setState({ newComment })}/>
                             </View>
                             <View style={{justifyContent:'center', alignItems: 'center', marginLeft:5}}>
-                                <Button height={40} width={60} label={'Add'} onPress={ () => this.AddComment()} />
+                                <Button height={40} width={60} label={'Add'} onPress={ () => this.AddComment(item.item._id)} />
                             </View>
                         </View>
                         <View>
@@ -126,7 +182,7 @@ export default class Store extends Component {
 
     render() {
         return(
-           <ScrollView style={{backgroundColor: 'white'}}>
+           <ScrollView style={{backgroundColor: 'white'}} nestedScrollEnabled>
                <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
                <AddProductModal isModalVisible={this.state.isModalVisible} closeModal={this._toggleModal} product={this.state.newProduct}/>
                <View style={[ styles.center]}>
@@ -158,7 +214,7 @@ export default class Store extends Component {
                         </View>
                    </View>
                </View>
-                <View>
+                <View nestedScrollEnabled>
                     <FlatList 
                         data={this.state.user.products_for_rent}
                         renderItem={ (item) => this.renderItem(item)}

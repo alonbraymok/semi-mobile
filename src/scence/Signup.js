@@ -28,10 +28,13 @@ export default class Signup extends Component {
 
     finishPressed = () => {
         user = this.state
-        console.log(user)
-        userStore.signup(user).then( (response) => console.log(response) )
+        console.log('dfsfd',user)
+        userStore.signup(user).then( (response) => {
+            console.log('res::', response)
+            Actions.login()
+        } )
         .catch( error => console.log(error))
-        Actions.login()
+        
     }
 
     render() {
