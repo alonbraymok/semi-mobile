@@ -16,9 +16,8 @@ import axios from 'axios';
         const body = {...user }
             return axios.post('http://semi.webo-tech.com/api/auth/register', body)
     }
-    logout = (email) => {
-        const body = {...email }
-        return axios.post('http://semi.webo-tech.com/api/auth/logout', body) 
+    logout = () => {       
+        return axios.post('http://semi.webo-tech.com/api/auth/logout') 
     }
     getUserRentedList = (userID) => {
         return axios.get(`http://semi.webo-tech.com/api/auth/getUserRentedList/${userID}`)

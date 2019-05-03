@@ -12,7 +12,7 @@ class ProductStore {
 
     @action
     getAllCategoties = () => {
-        console.log('herer')
+        console.log('herer1')
         return ProductService.getAllCategoties()
     }
 

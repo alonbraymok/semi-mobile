@@ -13,6 +13,9 @@ import axios from 'axios';
         const body = { user }
             return axios.post('http://192.168.68.102:3000/auth/signup', body)
     }
+    logout = () => {
+        return axios.post('http://192.168.68.102:3000/auth/logout')
+    }
 
     
 

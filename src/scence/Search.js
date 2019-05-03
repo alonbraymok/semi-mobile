@@ -19,7 +19,7 @@ export default class Search extends Component {
 
     constructor(props){
         super(props)
-        this.state = { categorys: [], productsCategory: '', leftValue: 0, rightValue: 0.5, sliderValues:[0,0] }
+        this.state = { categorys: [], productName: '', productsCategory: '', leftValue: 0, rightValue: 0.5, sliderValues:[1000,8000], searchedProduct:[] }
     }
 
     componentWillMount = () => {
@@ -30,7 +30,7 @@ export default class Search extends Component {
     
     getAllNameOfProductsCategory = (category) => {
       productStore.getAllNameOfProductsCategory(category).then( (response) => {
-          this.setState({productsCategory: response.data.data })
+          this.setState({categorys: response.data.data })
           .catch( (error) => console.log(error))
       })
     }
@@ -95,12 +95,13 @@ export default class Search extends Component {
 
     searchPressed = () => {
       product = {
-        name: this.state.productName,
-        category: this.state.productCategory,
+        name: this.state.productName.name,
+        category: this.state.productsCategory.name,
         minPrice: this.state.sliderValues[0],
         maxPrice: this.state.sliderValues[1]
       }
-      productStore.searchProducts(product).then( rosponse => {
+      console.log('search this product::', product)
+      productStore.searchProducts(product).then( response => {
         this.setState({ searchedProduct: response.data.data })
       }).catch( error => console.log(error))
       console.log('search pressed')
@@ -147,60 +148,64 @@ export default class Search extends Component {
         return(
            <ScrollView style={{ backgroundColor: 'white'}}>
                <Header clean headerText={'SEMI'} />
+               
                <View>
-               <SearchableDropdown
-                    //onTextChange={text => alert(text)}
-                    onItemSelect={item => this.getAllProductsCategory(item)}
+                  <SearchableDropdown
+                    onTextChange={text => console.log(text)}
+                    onItemSelect={item => this.setState({ productsCategory: item })}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
-                    padding: 12,
-                    borderWidth: 1,
-                    borderColor: '#ccc',
-                    borderRadius: 5,
+                      padding: 12,
+                      borderWidth: 1,
+                      borderColor: '#ccc',
+                      borderRadius: 5,
                     }}
                     itemStyle={{
-                    padding: 10,
-                    marginTop: 2,
-                    backgroundColor: '#ddd',
-                    borderColor: '#bbb',
-                    borderWidth: 1,
-                    borderRadius: 5,
+                      padding: 10,
+                      marginTop: 2,
+                      backgroundColor: '#ddd',
+                      borderColor: '#bbb',
+                      borderWidth: 1,
+                      borderRadius: 5,
                     }}
                     itemTextStyle={{ color: '#222' }}
                     itemsContainerStyle={{ maxHeight: 140 }}
                     items={this.items}
-                    placeholder='Category'
+                    defaultIndex={2}
+                    placeholder="Category"
                     resetValue={false}
                     underlineColorAndroid="transparent"
-                />
+                  />
                </View>
                <View>
-               <SearchableDropdown
-                    //onTextChange={text => alert(text)}
-                    onItemSelect={item => this.setState({ })}
+                  <SearchableDropdown
+                    onTextChange={text => console.log(text)}
+                    onItemSelect={item => this.setState({ productName: item })}
                     containerStyle={{ padding: 5 }}
                     textInputStyle={{
-                    padding: 12,
-                    borderWidth: 1,
-                    borderColor: '#ccc',
-                    borderRadius: 5,
+                      padding: 12,
+                      borderWidth: 1,
+                      borderColor: '#ccc',
+                      borderRadius: 5,
                     }}
                     itemStyle={{
-                    padding: 10,
-                    marginTop: 2,
-                    backgroundColor: '#ddd',
-                    borderColor: '#bbb',
-                    borderWidth: 1,
-                    borderRadius: 5,
+                      padding: 10,
+                      marginTop: 2,
+                      backgroundColor: '#ddd',
+                      borderColor: '#bbb',
+                      borderWidth: 1,
+                      borderRadius: 5,
                     }}
                     itemTextStyle={{ color: '#222' }}
                     itemsContainerStyle={{ maxHeight: 140 }}
                     items={this.items}
-                    placeholder="Product Name"
+                    defaultIndex={2}
+                    placeholder="Product name"
                     resetValue={false}
                     underlineColorAndroid="transparent"
-                />
+                  />
                </View>
+
                <View>
                     <Slidder values={this.state.sliderValues} onSlide={ this.setSliderValues} />
               </View>

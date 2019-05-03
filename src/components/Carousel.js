@@ -47,7 +47,7 @@ export default class Carousel extends Component {
     let imageArray = []
     let barArray = []
     this.props.products.forEach((products, i) => {
-      console.log(products, i)
+      // console.log(products, i)
       const thisImage = (
         <View>
             <Image key={`products${i}`} source={{uri: products.image}} style={{ width: deviceWidth, height: 150 }} />

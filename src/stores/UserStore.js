@@ -26,8 +26,8 @@ class UserStore {
             return UserService.signup(user)
     }
 
-    logout = (email) => {
-            return UserService.logout(email)
+    logout = () => {
+            return UserService.logout()
     }
     getUserRentedList = () => {
         return UserService.getUserRentedList(userID)

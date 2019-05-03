@@ -51,6 +51,13 @@ export default class Profile extends Component {
         productStore.setProductBuffer(product)
         Actions.prodectPage({product})
     }
+
+    logout = () => {
+        userStore.logout().then( response => {
+            console.log('response::', response)
+            //Actions.login()
+        }).catch( error => console.log(error))
+    }
     
 
     render() {
@@ -62,7 +69,7 @@ export default class Profile extends Component {
                <View>
                <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
                     <View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={ () => this.logout()}>
                             <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/housing-interface-1/16/Power-512.png'}} style={{margin: 10, width: 30, height: 30 }} />
                         </TouchableOpacity>
                     </View>
