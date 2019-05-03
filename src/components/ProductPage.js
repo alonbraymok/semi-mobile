@@ -1,12 +1,13 @@
 
 import React , { Component } from 'react'
-import { View, Text, TextInput, ScrollView, Image, FlatList, Alert} from 'react-native'
+import { View, Text, TextInput, ScrollView, Image, FlatList, Alert, TouchableOpacity} from 'react-native'
 import Button from './Button';
 import Header from './Header';
 import RatingStar from './RatingStar';
 import { Actions } from 'react-native-router-flux';
 import ProductStore from '../stores/ProductStore';
 import rootStores from '../stores';
+import Calendar from 'react-native-calendar-select';
 
 
 const productStore = rootStores[ProductStore];
@@ -14,8 +15,14 @@ export default class ProductPage extends Component {
 
     constructor(props){
         super(props)
-        this.state={startDate: '', endDate: '',product: ''}
-    }
+        this.state = {
+            startDate: new Date(2017, 6, 12),  
+            endDate: new Date(2017, 8, 2),
+            product: ''
+          };
+          this.confirmDate = this.confirmDate.bind(this);
+          this.openCalendar = this.openCalendar.bind(this);
+        }
     
     product = { name: 'skate', category:'extrem', price: 12, description:'from a doctor', starts: 4, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'}
     seller = { name: 'eliran hasin', email: 'eliranH26@gmail.com', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4', phoneNumber: '052-8896390'}
@@ -50,6 +57,16 @@ showAlert= () => {
       )
 }
 
+confirmDate({startDate, endDate, startMoment, endMoment}) {
+    this.setState({
+      startDate,
+      endDate
+    }, () => console.log(this.state));
+  }
+  openCalendar() {
+    this.calendar && this.calendar.open();
+  }
+
 renderItem = (item) => {
     return(
         <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
@@ -67,6 +84,24 @@ renderItem = (item) => {
 
 
     render() {
+        let customI18n = {
+            'w': ['', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
+            'weekday': ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            'text': {
+              'start': 'Check in',
+              'end': 'Check out',
+              'date': 'Date',
+              'save': 'Confirm',
+              'clear': 'Reset'
+            },
+            'date': 'DD / MM'  // date format
+          };
+          // optional property, too.
+          let color = {
+            subColor: '#f0f0f0'
+          };
+
+
         return(
             
             <View style={{backgroundColor: 'white', flex: 1 }}>
@@ -96,21 +131,33 @@ renderItem = (item) => {
                         <View style={{ justifyContent: 'center', marginRight: 10}}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold'}}>From:</Text>
                         </View>
-                        <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20}}>
-                            <TextInput value={this.state.startDate} 
-                                    onChangeText={ (date) => {this.setState({startDate: date})} }
-                                    placeholder={'dd/mm/yy'} />
-                        </View>
+                        <TouchableOpacity onPress={ () => this.openCalendar()}>
+                            <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20,justifyContent:'center', alignItems:'center'}}>
+                                <Text>{this.state.startDate.getDate() + '/' + this.state.startDate.getMonth() + '/' + this.state.startDate.getFullYear()}</Text>                                 
+                            </View>
+                        </TouchableOpacity>
                     </View>
+                    <Calendar
+                        i18n="en"
+                        ref={(calendar) => {this.calendar = calendar;}}
+                        customI18n={customI18n}
+                        color={color}
+                        format="YYYYMMDD"
+                        minDate="20170510"
+                        maxDate="20180312"
+                        startDate={this.state.startDate}
+                        endDate={this.state.endDate}
+                        onConfirm={this.confirmDate}
+                        />
                     <View style={{ flexDirection: 'row', marginTop: 10}}>
                         <View style={{ justifyContent: 'center', marginRight: 13}}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold'}}>To:</Text>
                         </View>
-                        <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20, marginLeft: 18}}>
-                            <TextInput value={this.state.endDate} 
-                                    onChangeText={ (date) => {this.setState({endDate: date})} }
-                                    placeholder={'dd/mm/yy'} />
-                        </View>
+                        <TouchableOpacity onPress={ () => this.openCalendar()}>
+                            <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20,justifyContent:'center', alignItems:'center'}}>
+                                <Text>{this.state.endDate.getDate() + '/' + this.state.endDate.getMonth() + '/' + this.state.endDate.getFullYear()}</Text>                                 
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     </View>
                 </View>

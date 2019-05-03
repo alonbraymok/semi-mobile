@@ -11,10 +11,12 @@ import SideBarMenu from './components/SideBarMenu';
 import RentedList from './scence/RentedList';
 import CreateStore from './scence/CreateStore';
 import NotifictionCenter from './scence/NotifictionCenter';
+import TestC from './scence/TestC';
 
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
+          
             <Scene key='login' component={Login} />
             <Scene key='notifictionCenter' component={NotifictionCenter} />
             <Scene key='createStore' component={CreateStore} />
