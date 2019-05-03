@@ -38,6 +38,11 @@ export default class SideBarMenu extends Component {
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{ margin: 10}}>
+                        <TouchableOpacity onPress={ () => Actions.notifictionCenter()}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>Notifiction Center </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
            </View>
         );

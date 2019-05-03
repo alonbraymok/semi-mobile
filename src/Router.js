@@ -10,11 +10,13 @@ import ProductPage from './components/ProductPage';
 import SideBarMenu from './components/SideBarMenu';
 import RentedList from './scence/RentedList';
 import CreateStore from './scence/CreateStore';
+import NotifictionCenter from './scence/NotifictionCenter';
 
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
             <Scene key='login' component={Login} />
+            <Scene key='notifictionCenter' component={NotifictionCenter} />
             <Scene key='createStore' component={CreateStore} />
             <Scene key='search' component={Search} />
             <Scene key={'profile'} component={Profile} />

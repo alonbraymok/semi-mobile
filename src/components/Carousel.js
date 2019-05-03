@@ -17,7 +17,13 @@ const images = [
 ]
 
 
+import rootStores from '../stores';
+import {observer} from 'mobx-react'
+import ProductStore from '../stores/ProductStore';
 
+
+const productStore = rootStores[ProductStore];
+@observer 
 export default class Carousel extends Component {
 
     constructor(props){
@@ -30,6 +36,12 @@ export default class Carousel extends Component {
   numItems = this.props.products.length
   itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)
   animVal = new Animated.Value(0)
+
+  goToProductPage = (product) =>{
+    productStore.setProductBuffer(product)
+    Actions.prodectPage({product})
+  }
+
 
   render() {
     let imageArray = []
@@ -55,7 +67,7 @@ export default class Carousel extends Component {
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', marginLeft: 50}}>
-                    <Button height={50} width={100} label={'RENT!'} onPress={ () => Actions.productPage()}/>
+                    <Button height={50} width={100} label={'RENT!'} onPress={ () => this.goToProductPage(products)}/>
                 </View>
             </View> 
             <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>

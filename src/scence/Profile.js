@@ -9,15 +9,17 @@ import SideBarMenu from '../components/SideBarMenu';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 import {observer} from 'mobx-react'
+import ProductStore from '../stores/ProductStore';
 
 
+const productStore = rootStores[ProductStore];
 const userStore = rootStores[UserStore];
 @observer 
 export default class Profile extends Component {
 
     constructor(props){
         super(props)
-        this.state = { user:'', email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', show: 'none', 
+        this.state = { user:'', email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', show: 'none', 
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
@@ -44,16 +46,18 @@ export default class Profile extends Component {
         }
         
     }
-    
-    signUpPressed = () => {
-        Actions.signup()
+
+    goToProductPage = (product) =>{
+        productStore.setProductBuffer(product)
+        Actions.prodectPage({product})
     }
+    
 
     render() {
         if(this.state.user){//this.state.user.store
 
             return(
-                <ScrollView>
+            <ScrollView style={{backgroundColor: 'white'}}>
                <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()} onPressSearch={ () => Actions.search() }/>
                <View>
                <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
@@ -71,6 +75,11 @@ export default class Profile extends Component {
                         <View style={{ margin: 10}}>
                             <TouchableOpacity>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.notifictionCenter()}>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>Notifiction Center </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -109,7 +118,7 @@ export default class Profile extends Component {
                       <Text style={{fontWeight: '600'}}>Check out my all products! </Text>
                   </TouchableOpacity>
                </View>
-           </ScrollView>
+        </ScrollView>
         );
     }else{
         return(

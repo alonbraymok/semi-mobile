@@ -16,23 +16,14 @@ export default class Login extends Component {
     }
     signInPressed = () => {
        
-        body = { email: this.state.email, password: this.state.password}
-        console.log(body)
-        axios.get('https://jsonplaceholder.typicode.com/todos/1').then( res => {
-            debugger
-            console.log(res)
-        }).catch( err => {
-            debugger
-            console.log(err)
-        })
         userStore.signin(this.state.email, this.state.password).then( response => {
             console.log(response)
-            debugger
+            
             userStore.setCurrentUser(response.data.data)
             Actions.profile()
         }).catch( error => {
             console.log(error)
-                debugger  
+                  
         })
        
     }

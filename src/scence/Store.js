@@ -1,5 +1,5 @@
 import React , { Component } from 'react'
-import { View, Image, FlatList, TouchableOpacity, Text, ScrollView} from 'react-native'
+import { View, Image, FlatList, Platform, UIManager, TouchableOpacity, LayoutAnimation , Text, ScrollView, TextInput} from 'react-native'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
@@ -9,7 +9,7 @@ import ProductStore from '../stores/ProductStore';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 import {observer} from 'mobx-react';
-import Collapsible from 'react-native-collapsible';
+import RatingStar from '../components/RatingStar'
 
 
 
@@ -20,28 +20,34 @@ export default class Store extends Component {
 
     constructor(props){
         super(props)
-        this.state = { isModalVisible: false, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', name: 'Alon braymok', phoneNumber: '052-8896390' ,
-                       storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'
-                    , newProduct: '',user: '',activeSections: [],
-                    collapsed: true,
-                    multipleSelect: false,}
+        this.state = { isModalVisible: false  , newProduct: '',newComment: '' ,user: '', expanded: false, expandeds: []}
+
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true);
+        }
     }
 
 
     componentDidMount = () => {
-        this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user))
+        this.setState({ user: userStore.getCurrentUser()}, () => {console.log('user::',this.state.user)
+        for(i=0; i<this.state.user.products_for_rent.length; i++ ){
+            const expandeds = this.state.expandeds
+            expandeds.push(false)
+            this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+        }
+    })
+
     }
 
-    products = [
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-    ]
+
+    changeLayout = (index) => {
+        console.log('here')
+        buffer = this.state.expandeds.slice(0)
+        buffer[index] = !buffer[index]
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+        this.setState({ expanded: !this.state.expanded, expandeds: buffer });
+    }
 
     _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -53,10 +59,13 @@ export default class Store extends Component {
       toggleExpanded = () => {
         this.setState({ collapsed: !this.state.collapsed });
       };
-
+      AddComment = () => {
+          this.setState({ newComment: ''})
+          console.log('commented')
+      }
     renderItem = (item) => {
         return(
-            <View style={{borderTopWidth: 1 }}>
+            <View style={{borderTopWidth: 1 , padding:5}}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
                         <Image source={{ uri: item.item.image}} style={{ height: 200, width: 150}} />
@@ -80,37 +89,44 @@ export default class Store extends Component {
                                 <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)} />
                             </View>
                             <View style={{marginLeft: 30}}>
-                                <TouchableOpacity>
+                                <TouchableOpacity activeOpacity={0.8} onPress={ () => this.changeLayout(item.index)}>
                                     <View style={{marginLeft: 20}}>
                                         <Image source={{uri: 'https://image.flaticon.com/icons/png/512/707/707675.png'}} style={{width:30, height:30}} />
                                     </View>
                                     <Text style={{fontWeight:'bold'}}>comment</Text>
                                 </TouchableOpacity>
+                                {/* <View style={{ height: this.state.expanded ? null : 0, overflow: 'hidden' }}>
+                                    
+                                </View> */}
                             </View>
-                       </View>
-                       <TouchableOpacity onPress={ () => this.toggleExpanded()}>
-                            <View style={styles.header}>
-                            <Text style={styles.headerText}>Single Collapsible</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <Collapsible collapsed={this.state.collapsed} align="center">
-                            <View style={styles.content}>
-                            <Text>
-                                Bacon ipsum dolor amet chuck turducken landjaeger tongue spare
-                                ribs
-                            </Text>
-                            </View>
-                        </Collapsible>
-                           
+                       </View>                              
                    </View>
                </View>
+               <View style={{ height: this.state.expandeds[item.index] ? null : 0, overflow: 'hidden' }}>
+                    <View>
+                        <View>
+                            <Text>Add Comment</Text>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <View style={{ borderWidth:1, borderRadius:20, width:'80%', height:50}}>
+                                <TextInput value={this.state.newComment} onChangeText={ (newComment) => this.setState({ newComment })}/>
+                            </View>
+                            <View style={{justifyContent:'center', alignItems: 'center', marginLeft:5}}>
+                                <Button height={40} width={60} label={'Add'} onPress={ () => this.AddComment()} />
+                            </View>
+                        </View>
+                        <View>
+                            <RatingStar size={10}/>
+                        </View>
+                    </View>             
+                </View>
             </View>
         )
     }
 
     render() {
         return(
-           <ScrollView>
+           <ScrollView style={{backgroundColor: 'white'}}>
                <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
                <AddProductModal isModalVisible={this.state.isModalVisible} closeModal={this._toggleModal} product={this.state.newProduct}/>
                <View style={[ styles.center]}>
@@ -146,6 +162,7 @@ export default class Store extends Component {
                     <FlatList 
                         data={this.state.user.products_for_rent}
                         renderItem={ (item) => this.renderItem(item)}
+                        extraData={this.state}
                     />
                 </View>
            </ScrollView>
