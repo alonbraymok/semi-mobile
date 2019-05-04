@@ -73,23 +73,23 @@ export default class Carousel extends Component {
       const thisImage = (
         <View nestedScrollEnabled>
         
-            <Image key={`products${i}`} source={{uri: products.image}} style={{ width: (deviceWidth - 60), height: 150 }} />
+            <Image key={`products${i}`} source={{uri: products.images[0]}} style={{ width: (deviceWidth - 60), height: 150 }} />
             <View style={{ flexDirection: 'row', width: (deviceWidth - 60), backgroundColor:'#eff9ff', borderRadius: 10, padding:10}}>
                 <View>
-                    <View>
-                        <Text style={{fontWeight: 'bold'}}>{products.name}</Text>
+                    <View style={{ maxWidth: 180}}>
+                        <Text style={{fontWeight: '700',fontSize:17}}>{products.name}</Text>
                     </View>
-                    <View>
-                        <Text style={{fontWeight: 'bold'}}>{products.category.name}</Text>
+                    <View style={{ maxWidth: 180}}>
+                        <Text style={{fontWeight: '500',fontSize:15}}>{products.category.name}</Text>
                     </View>
-                    <View>
+                    {/* <View style={{maxHeight: 10, maxWidth: 250}}>
                         <Text style={{fontWeight: 'bold'}}>{products.description}</Text>
-                    </View>
-                    <View>
-                        <Text style={{fontWeight: 'bold'}}>Price: {products.retail_price}</Text>
+                    </View> */}
+                    <View style={{marginVertical: 10 ,maxWidth: 250}}>
+                        <Text style={{fontWeight: 'bold'}}>{products.plans[0].price} for {products.plans[0].period}</Text>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'flex-end', alignItems:'flex-end', marginLeft: 65}}>
+                <View style={{ justifyContent: 'flex-end', alignItems:'center'}}>
                     <Button height={50} width={100} label={'RENT!'} onPress={ () => this.goToProductPage(products)}/>
                 </View>
             </View>

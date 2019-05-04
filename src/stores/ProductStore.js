@@ -22,6 +22,9 @@ class ProductStore {
     getAllNameOfProductsCategory = (category) => {
         return ProductService.getAllNameOfProductsCategory(category)
     }
+    getAllUserProduct = (username) => {
+        return ProductService.getAllUserProduct(username)
+    }
     @action
     setProductBuffer = (product) => {
         this.productBuffer = product

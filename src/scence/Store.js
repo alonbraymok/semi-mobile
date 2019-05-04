@@ -10,6 +10,7 @@ import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
 import {observer} from 'mobx-react';
 import RatingStar from '../components/RatingStar'
+import ReadMore from 'react-native-read-more-text';
 const moment = require('moment');
 
 
@@ -37,7 +38,7 @@ export default class Store extends Component {
             for(i=0; i<this.state.user.products_for_rent.length; i++ ){
                 const expandeds = this.state.expandeds
                 expandeds.push(false)
-                this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+                this.setState({ expandeds},)
             }
         })
         }else{
@@ -45,7 +46,7 @@ export default class Store extends Component {
             for(i=0; i<this.state.user.products_for_rent.length; i++ ){
                 const expandeds = this.state.expandeds
                 expandeds.push(false)
-                this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+                this.setState({ expandeds}, )
             }
         })
         }
@@ -132,13 +133,17 @@ export default class Store extends Component {
           this.setState({ newComment: ''})
           
       }
+
+      _handleTextReady = () => {
+        console.log('ready!');
+      }
     renderItem = (item) => {
-        console.log('itemm:',item)
+        
         return(
             <View style={{borderTopWidth: 1 , padding:5}}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
-                        <Image source={{ uri: item.item.image}} style={{ height: 200, width: 150}} />
+                        <Image source={{ uri: item.item.images[0]}} style={{ height: 200, width: 150}} />
                    </View>
                    <View style={{ margin: 20}}>
                         <View style={{ width:150, justifyContent:'flex-end', alignItems:'flex-end', display:this.state.managerDisplay}}>
@@ -146,18 +151,22 @@ export default class Store extends Component {
                                 <Image source={require('../assets/trash.png')} style={{ height: 30, width: 20}} />    
                             </TouchableOpacity>
                         </View>
-                       <View style={[ styles.textMargin ]}>
+                       <View style={[ styles.textMargin, {width:150} ]}>
                             <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
                        </View>
-                       <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
+                       <View style={[ styles.textMargin , {flexDirection: 'row',width:150} ]}>
                             <Text style={[ styles.textStyle ]}>{item.item.category.name}</Text>
                             
                        </View>
-                       <View style={[ styles.textMargin ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
+                       <View style={[ styles.textMargin , {width:150}]}>
+                            <ReadMore
+                                numberOfLines={2}
+                                onReady={this._handleTextReady}>
+                                <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
+                            </ReadMore>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>price per day:{}  $</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>{item.item.plans[0].price} for {item.item.plans[0].period}</Text>
                        </View>
                        <View style={{flexDirection:'row', marginTop:20, display:this.state.managerDisplay}}>
                             <View>

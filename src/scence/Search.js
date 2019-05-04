@@ -10,6 +10,7 @@ import Slidder from '../components/Slidder';
 import ProductStore from '../stores/ProductStore';
 import rootStores from '../stores';
 import { observer } from 'mobx-react';
+import ReadMore from 'react-native-read-more-text';
 
 
 const productStore = rootStores[ProductStore];
@@ -150,7 +151,11 @@ export default class Search extends Component {
                             
                        </View>
                        <View style={{ marginVertical: 3, width: 150,maxHeight: 50}}>
-                            <Text style={{ fontWeight:'bold'}}>{item.item.description}</Text>
+                            <ReadMore
+                                numberOfLines={2}
+                                onReady={this._handleTextReady}>
+                                <Text style={{ fontWeight:'bold'}}>{item.item.description}</Text>
+                            </ReadMore>
                        </View>
                        <View style={[{marginVertical: 10,width: 200} ]}>
                             <Text style={{ fontWeight:'bold'}}>price per day: {item.item.plans[0].price} $</Text>

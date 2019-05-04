@@ -13,6 +13,11 @@ const URL = 'http://semi.webo-tech.com/api/products'
         return axios.get(`http://semi.webo-tech.com/api/products/by-category/${category.name}`)
     }
 
+    getAllUserProduct = (username) => {
+        console.log('url::',`http://semi.webo-tech.com/api/users/products/${username}` )
+        return axios.get(`http://semi.webo-tech.com/api/users/products/${username}`)
+    }
+
     rentProduct = (product, user) => {
         body = { product, user}
         return axios.post(`${URL}/rentProduct`, body)
