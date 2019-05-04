@@ -138,30 +138,29 @@ export default class Search extends Component {
             <View style={{borderTopWidth: 1 }}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
-                   <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile('tom lochi')}>
-                        <Image source={{ uri: 'https://cdn.mec.ca/medias/sys_master/high-res/high-res/8796369977374/5044850-BK006.jpg'}} style={{ height: 200, width: 150}} />
-                   </TouchableOpacity>
+                        <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile('tom lochi')}>
+                              <Image source={{ uri: 'https://cdn.mec.ca/medias/sys_master/high-res/high-res/8796369977374/5044850-BK006.jpg'}} style={{ height: 200, width: 150}} />
+                        </TouchableOpacity>
                    </View>
-                   <View style={{ margin: 20, maxHeight: 250}}>
-                       <View style={{ marginVertical: 3}}>
+                   <View style={{ margin: 20}}>
+                       <View style={{ marginVertical: 3, maxWidth:150}}>
                             <Text style={{ fontWeight:'bold'}}>{item.item.name}</Text>
                        </View>
-                       <View style={[ {marginVertical: 3,flexDirection: 'row'} ]}>
+                       <View style={[ {marginVertical: 3,flexDirection: 'row', maxWidth:150} ]}>
                             <Text style={{ fontWeight:'bold'}}>{item.item.category.name}</Text>
                             
                        </View>
-                       <View style={{ marginVertical: 3, width: 150,maxHeight: 50}}>
+                       <View style={{ marginVertical: 3, width: 150}}>
                             <ReadMore
                                 numberOfLines={2}
                                 onReady={this._handleTextReady}>
                                 <Text style={{ fontWeight:'bold'}}>{item.item.description}</Text>
                             </ReadMore>
                        </View>
-                       <View style={[{marginVertical: 10,width: 200} ]}>
+                       <View style={[{marginVertical: 10, maxWidth:150} ]}>
                             <Text style={{ fontWeight:'bold'}}>price per day: {item.item.plans[0].price} $</Text>
                        </View>
-                       
-                       <View style={{ alignItems:'flex-end', justifyContent:'flex-end', marginRight: 50, marginTop: 20}}>
+                       <View style={{ alignItems:'flex-end', justifyContent:'flex-end', marginTop: 20}}>
                            <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)}/>
                        </View>
                            

@@ -13,7 +13,7 @@ const userStore = rootStores[UserStore];
 const productStore =rootStores[ProductStore];
 export default class AddProductModal extends Component {
   state = {
-    isModalVisible: false, productImage: require('../assets/uploadImage.png'), name: 'a', category: 'a', description: 'a', price: 1
+    isModalVisible: false, images: require('../assets/uploadImage.png'), name: 'a', category: 'a', description: 'a', retail_price: ''
   };
 
     _toggleModal = () =>
@@ -37,7 +37,7 @@ export default class AddProductModal extends Component {
               name: this.state.name,
               category: this.state.category,
               description: this.state.description,
-              price: this.state.price,
+              price: this.state.retail_price,
               image: this.state.productImage
           }
           console.log(product)
@@ -48,8 +48,11 @@ export default class AddProductModal extends Component {
 
   render() {
     return (
-        <View style={{ }}>
-                <Modal isVisible={this.props.isModalVisible} style={{backgroundColor: 'white', width: 390, height: '70%', margin: 10, justifyContent: 'flex-start'}}>
+        <View style={{justifyContent:'center', alignItems:'center' }}>
+                <Modal isVisible={this.props.isModalVisible} style={{backgroundColor: 'white', height: '70%',width:'100%'}}>
+                    <TouchableOpacity onPress={ () => this.props.closeModal()}>
+                        <Text>X</Text>
+                    </TouchableOpacity>
                     <View>
                         <TouchableOpacity onPress={this.handleChoosePhoto}>
                             <View style={[ styles.center, styles.vMargin ]}>

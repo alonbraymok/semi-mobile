@@ -24,7 +24,7 @@ const URL = 'http://semi.webo-tech.com/api/products'
     }
     createNewProduct = (product) => {
         body = { ...product }   
-        return axios.post(`${URL}/`, body)
+        return axios.post('http://semi.webo-tech.com/api/users/product', body)
     }
     
     editProduct = (userId, product) => {

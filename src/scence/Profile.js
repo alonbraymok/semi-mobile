@@ -19,21 +19,17 @@ export default class Profile extends Component {
 
     constructor(props){
         super(props)
-        this.state = { user:{}, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', show: 'none', managerDisplay: 'flex',
+        this.state = { user:{}, email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', show: 'none', managerDisplay: 'none',
                        storeDescription: 'Here you will find the best product in town' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
     componentDidMount = () => {
-        console.log('props::', this.props)
         if(this.props.otherUser !== undefined){
-            console.log('props-otheruser::', this.props.otherUser)
             name = this.props.otherUser
             userStore.getUserByUserName(name).then( response => {
-                console.log('susia',response)
                 this.setState({ user: response.data.data }, () => {
                     this.isManager()
                     productStore.getAllUserProduct(this.props.otherUser).then( response => {
-                        console.log('res::', response)
                         products = { products_for_rent: response.data.data }                      
                         user = this.state.user
                         Object.assign(user, products)
@@ -47,7 +43,6 @@ export default class Profile extends Component {
         }else{
             this.setState({ user: userStore.getCurrentUser()}, () => {
                 this.isManager()
-                console.log('username::', userStore.getCurrentUser().username)
                 productStore.getAllUserProduct(userStore.getCurrentUser().username).then( response => {
                     console.log('res::', response)
                     products = { products_for_rent: response.data.data}
@@ -63,8 +58,8 @@ export default class Profile extends Component {
  
     isManager = () => {
         if(this.props.otherUser !== undefined){
-            if(this.props.otherUser.username !== userStore.getCurrentUser().username){
-                this.setState({ managerDisplay: 'none'})
+            if(this.props.otherUser !== userStore.getCurrentUser().username){
+                this.setState({ managerDisplay: 'flex'})
             }
         }
     }
