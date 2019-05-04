@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, View, StyleSheet, Image, Dimensions, ScrollView,Text, FlatList } from 'react-native'
+import { Animated, View, StyleSheet, Image, Dimensions, ScrollView,Text, FlatList, TouchableOpacity } from 'react-native'
 import Button from './Button';
 import RatingStar from './RatingStar';
 import { Actions } from 'react-native-router-flux';
@@ -29,10 +29,13 @@ export default class Carousel extends Component {
 
     constructor(props){
         super(props)
-        console.log('props::', this.props)
+        console.log('carousel props::', this.props)
     }
 
-  
+    moveToProductOwnerProfile = (username) => {
+      console.log(username)
+      Actions.profile({ otherUser: username })
+    }
   
   products = this.props.products 
   numItems = this.props.products.length
@@ -45,10 +48,12 @@ export default class Carousel extends Component {
   }
   renderReview = (item) => {
     return(
-      <View>
+      <View  style={{ width: (deviceWidth - 60), padding:10}}>
          <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
               <View style={{margin: 5}}>
+              <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile(item.item.creator.username)}>
                   <Image source={{ uri: item.item.creator.profile_image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+              </TouchableOpacity>
                   <Text style={{textAlign:'center', fontWeight:'bold'}}>{item.item.creator.username}</Text>
               </View>
               <View style={[ ]}>
@@ -66,51 +71,42 @@ export default class Carousel extends Component {
     this.props.products.forEach((products, i) => {
       // console.log(products, i)
       const thisImage = (
-        <View>
-            <Image key={`products${i}`} source={{uri: products.image}} style={{ width: deviceWidth, height: 150 }} />
-            <View style={{ flexDirection: 'row', width: deviceWidth}}>
+        <View nestedScrollEnabled>
+        
+            <Image key={`products${i}`} source={{uri: products.image}} style={{ width: (deviceWidth - 60), height: 150 }} />
+            <View style={{ flexDirection: 'row', width: (deviceWidth - 60), backgroundColor:'#eff9ff', borderRadius: 10, padding:10}}>
                 <View>
                     <View>
-                        <Text>{products.name}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{products.name}</Text>
                     </View>
                     <View>
-                        <Text>{products.category.name}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{products.category.name}</Text>
                     </View>
                     <View>
-                        <Text>{products.description}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{products.description}</Text>
                     </View>
                     <View>
-                        <Text>Price per day: {products.retail_price}</Text>
+                        <Text style={{fontWeight: 'bold'}}>Price: {products.retail_price}</Text>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'center', marginLeft: 50}}>
+                <View style={{ justifyContent: 'flex-end', alignItems:'flex-end', marginLeft: 65}}>
                     <Button height={50} width={100} label={'RENT!'} onPress={ () => this.goToProductPage(products)}/>
                 </View>
             </View>
-            <View>
-              <ScrollView>
+            <View style={{maxHeight: 80, marginTop: 5}}>
+              <ScrollView style={{backgroundColor:'#e8f6ff', borderRadius: 10}} nestedScrollEnabled>
                   <FlatList 
                       data={products.reviews}
                       renderItem={ (item) => this.renderReview(item)}
                   />
               </ScrollView>
             </View> 
-            {/* <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
-                <View style={{margin: 5}}>
-                    <Image source={{ uri: products.reviews.image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
-                    <Text style={{textAlign:'center', fontWeight:'bold'}}>{products.reviews.name}</Text>
-                </View>
-                <View style={[ ]}>
-                    <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{products.reviews.content}</Text>
-                    <RatingStar size={15}/>
-                </View>
-            </View>   */}
         </View>
       )
       imageArray.push(thisImage)
 
       const scrollBarVal = this.animVal.interpolate({
-        inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
+        inputRange: [(deviceWidth - 60) * (i - 1), (deviceWidth - 60) * (i + 1)],
         outputRange: [-this.itemWidth, this.itemWidth],
         extrapolate: 'clamp',
       })

@@ -24,12 +24,12 @@ export default class Profile extends Component {
     }
 
     componentDidMount = () => {
-        console.log('propss:', this.props)
+        console.log('profile propss:', this.props)
         
         if(this.props.otherUser !== undefined){
             userStore.getUserByUserName(this.props.otherUser).then( response => {
                 console.log(response)
-                this.setState({ user: response.data.data }, ()=>console.log(' user::',this.state.user)) 
+                this.setState({ user: response.data.data }, ()=>console.log('other user::',this.state.user)) 
             }).catch( error => {console.log(error)})
         }else{
             this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user)) 
@@ -79,7 +79,7 @@ export default class Profile extends Component {
             )
         }else{
             return(
-                <View>
+                <View style={{borderRadius: 15}}>
                     <Carousel products={this.state.user.products_for_rent}></Carousel>
                 </View>
             )
@@ -89,7 +89,7 @@ export default class Profile extends Component {
 
     render() {
         if(this.state.user.products_to_rent !== [] ){//this.state.user.store
-
+            console.log('here1')
             return(
             <ScrollView style={{backgroundColor: 'white'}}>
                <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()} onPressSearch={ () => Actions.search() }/>
@@ -136,7 +136,7 @@ export default class Profile extends Component {
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{this.state.user.email}</Text>
                        </View>
-                       <View style={[ styles.textMargin , {width: 200} ]}>
+                       <View style={[ styles.textMargin , {maxWidth: 170} ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{this.state.storeDescription}</Text>
                        </View>
                    </View>
@@ -156,6 +156,7 @@ export default class Profile extends Component {
         );
     }else{
 
+        console.log('here2')
 
         return(
             <ScrollView style={{backgroundColor: 'white'}}>
@@ -256,6 +257,7 @@ const styles = {
     },
     textStyleSmaller: {
         fontSize: 15,
+        fontWeight: 'bold'
     }
 
 }

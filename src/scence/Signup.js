@@ -6,13 +6,17 @@ import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
 import UserStore from '../stores/UserStore';
 import rootStores from '../stores';
+import Header from '../components/Header';
+
+
+
 
 const userStore = rootStores[UserStore];
 export default class Signup extends Component {
 
     constructor(props){
         super(props)
-        this.state = { username: 'alonbraymok', email: 'test@test.com', password: '123456', address: 'Tel aviv', firstname: 'alon', lastname: 'braymok', phoneNumber: '052-8896390',profileImage: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}
+        this.state = { username: '', email: '', password: '', address: '', firstname: '', lastname: '', phoneNumber: '',profileImage: 'https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png'}
     }
 
     handleChoosePhoto = () => {
@@ -40,8 +44,9 @@ export default class Signup extends Component {
     render() {
         return(
            <ScrollView style={{ backgroundColor: 'white'}}>
-               <View style={[ styles.center ]}>
-                   <Text>REGISTRTION</Text>
+               <Header back headerText={'SEMI'} onPress={ () => Actions.login()}/>
+               <View style={[ styles.center, {marginVertical:10} ]}>
+                   <Text style={{ fontSize:20, fontWeight:'bold'}}>REGISTRTION</Text>
                </View>
                <TouchableOpacity onPress={this.handleChoosePhoto}>
                     <View style={[ styles.center, styles.vMargin ]}>
@@ -73,9 +78,6 @@ export default class Signup extends Component {
                </View>
                <View style={[ styles.center]}>
                    <Button height={40} width={100} label={'Sign up'} onPress={ () => this.finishPressed()}/>
-               </View>
-               <View style={[ styles.imageConteiner]}>
-                    <Image source={ require('../assets/signupImage.jpg')} style={[ styles.imageSize]}/>
                </View>
 
            </ScrollView>

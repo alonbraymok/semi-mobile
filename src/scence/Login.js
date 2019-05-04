@@ -1,5 +1,5 @@
 import React , { Component } from 'react'
-import { View, Image, TextInput, TouchableOpacity, Text} from 'react-native'
+import { View, Image, TextInput, TouchableOpacity, Text, ScrollView} from 'react-native'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
@@ -34,9 +34,9 @@ export default class Login extends Component {
 
     render() {
         return(
-           <View style={{ backgroundColor: 'white'}}>
-               <View style={[ styles.center ]}>
-                   <Text>SEMI</Text>
+           <ScrollView style={{ backgroundColor: 'white'}}>
+               <View style={[ styles.center, {marginVertical:30} ]}>
+                   <Image source={require('../assets/semi.png')}  />
                </View>
                <View>
                    <View style={[ styles.center, styles.vMargin ]}>
@@ -46,7 +46,7 @@ export default class Login extends Component {
                        <Input placeholder={'Password'} value={this.state.password} onChangeText={ (password) => this.setState({  password }) }/>
                    </View>
                </View>
-               <View style={[ styles.center]}>
+               <View style={[ styles.center,{ marginVertical: 20}]}>
                    <Button height={40} width={100} label={'Sign in'} onPress={ () => this.signInPressed()}/>
                </View>
                <View style={[ styles.center]}>
@@ -54,11 +54,7 @@ export default class Login extends Component {
                         <Text> Sign up </Text>
                     </TouchableOpacity>
                </View>
-               <View style={[ styles.imageConteiner ]}>
-                    <Image source={ require('../assets/loginImage.jpg')} style={[ styles.imageSize]}/>
-               </View>
-
-           </View>
+           </ScrollView>
         );
 
     }

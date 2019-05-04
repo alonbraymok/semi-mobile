@@ -23,8 +23,8 @@ export default class Input extends Component {
 
 const styles = {
     conteinerStyle: {
-        borderWidth: 1,
-        borderColor: 'blue',
+        borderWidth: 2,
+        borderColor: '#0843a3',
         borderRadius: 10,
         width: '70%'
     }

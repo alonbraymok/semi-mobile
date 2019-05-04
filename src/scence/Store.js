@@ -30,13 +30,24 @@ export default class Store extends Component {
 
 
     componentDidMount = () => {
-        this.setState({ user: this.props.user}, () => {console.log('user::',this.state.user)
-        for(i=0; i<this.state.user.products_for_rent.length; i++ ){
-            const expandeds = this.state.expandeds
-            expandeds.push(false)
-            this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+        if(this.props.user){
+
+            this.setState({ user: this.props.user}, () => {console.log('user::',this.state.user)
+            for(i=0; i<this.state.user.products_for_rent.length; i++ ){
+                const expandeds = this.state.expandeds
+                expandeds.push(false)
+                this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+            }
+        })
+        }else{
+            this.setState({ user: userStore.getCurrentUser()}, () => {console.log('user::',this.state.user)
+            for(i=0; i<this.state.user.products_for_rent.length; i++ ){
+                const expandeds = this.state.expandeds
+                expandeds.push(false)
+                this.setState({ expandeds}, () => console.log('false', this.state.expandeds) )
+            }
+        })
         }
-    })
 
     }
 

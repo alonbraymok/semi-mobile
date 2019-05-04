@@ -16,7 +16,7 @@ export default class Header extends Component {
   renderCleanHeader = () => {
     return( 
             <View style={styles.viewStyle}>
-                <Text style={styles.textStyle}>{this.props.headerText}</Text>
+                <Image source={require('../assets/semi.png')} style={[{width:60, height:40} ]} />
             </View>      
     );
   }
@@ -25,15 +25,17 @@ export default class Header extends Component {
     return (
 
             <View style={styles.backButtonStyle}>
-              <Text style={[styles.textStyle, styles.margintextforLeft]}>{this.props.headerText}</Text>
-                  <View  style={{ marginLeft: 30}}>
-                      <TouchableOpacity onPress={this.props.onPress}>
-                            <Image
-                                  source={require('../assets/back.png')}
-                                  style={[ styles.arrowStyle ]}
-                            />
-                      </TouchableOpacity>
-                  </View>
+              <View style={{justifyContent:'center', alignItems:'center', marginLeft: '40%'}}>
+                  <Image source={require('../assets/semi.png')} style={[{width:60, height:40} ]} />
+              </View>
+              <View  style={{justifyContent:'center', alignItems:'center', marginLeft: 40}}>
+                  <TouchableOpacity onPress={this.props.onPress}>
+                        <Image
+                              source={require('../assets/back.png')}
+                              style={[ styles.arrowStyle ]}
+                        />
+                  </TouchableOpacity>
+              </View>
             </View>
                 
     );
@@ -48,18 +50,17 @@ export default class Header extends Component {
         <View style={styles.viewStyle}>
               <View>
                   <TouchableOpacity onPress={() => this.props.onPressHamburger()} style={{ marginRight: 70}}>
-                        <Image source={{ uri : 'https://cdn4.iconfinder.com/data/icons/tupix-1/30/list-512.png'}}  style={[ styles.messegeIcon ]} />
+                        <Image source={ require('../assets/burger.png')}  style={[ styles.messegeIcon ]} />
                   </TouchableOpacity>
               </View>
               <View>
-                   <Text style={styles.textStyle}>{this.props.headerText}</Text>
+                    <Image source={require('../assets/semi.png')} style={[{width:60, height:40} ]} />
               </View>
               <View>
                   <TouchableNativeFeedback onPress={ () => this.props.onPressSearch()}>
                       <View style={{marginLeft: 60, alignItems: 'center',flexDirection: 'column'}}>
-                          <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/social-media-essentials/30/Serch-512.png'}} style={[ styles.lineStyle ]}/>
-                          
-                        </View>
+                          <Image source={ require('../assets/loupe.png')} style={[ styles.lineStyle ]}/>  
+                      </View>
                   </TouchableNativeFeedback>
               </View>
         </View>
@@ -145,8 +146,7 @@ const styles = {
      flexDirection: 'row',
      backgroundColor: '#0843a3',   
      height: 60,
-     paddingTop: 10, 
-     justifyContent: 'center'
+     
   },
   arrowStyle:{
       height: 30, 
@@ -157,12 +157,12 @@ const styles = {
       marginLeft: 60
   },
   messegeIcon : {
-    height: 20, 
+    height: 30, 
     width: 30
   },
   lineStyle: {
-    height: 50, 
-    width: 50, 
+    height: 40, 
+    width: 40, 
     margin: 3, 
   },
   searchStyle: {
