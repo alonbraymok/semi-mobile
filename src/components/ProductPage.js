@@ -16,8 +16,8 @@ export default class ProductPage extends Component {
     constructor(props){
         super(props)
         this.state = {
-            startDate: new Date(2017, 6, 12),  
-            endDate: new Date(2017, 8, 2),
+            startDate: new Date(2019, 6, 12),  
+            endDate: new Date(2019, 6, 2),
             product: ''
           };
           this.confirmDate = this.confirmDate.bind(this);
@@ -167,7 +167,7 @@ renderItem = (item) => {
                             <Text style={{ fontSize: 20, fontWeight: 'bold'}}>To:</Text>
                         </View>
                         <TouchableOpacity onPress={ () => this.openCalendar()}>
-                            <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20,justifyContent:'center', alignItems:'center'}}>
+                            <View style={{width: 100, height: 40, borderWidth: 1, borderColor: '#0843a3', borderRadius: 20,justifyContent:'center', alignItems:'center', marginLeft: 20}}>
                                 <Text>{this.state.endDate.getDate() + '/' + this.state.endDate.getMonth() + '/' + this.state.endDate.getFullYear()}</Text>                                 
                             </View>
                         </TouchableOpacity>

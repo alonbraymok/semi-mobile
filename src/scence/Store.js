@@ -21,7 +21,7 @@ export default class Store extends Component {
 
     constructor(props){
         super(props)
-        this.state = { isModalVisible: false  , newProduct: '',newComment: '' ,user: '', expanded: false, expandeds: []}
+        this.state = { isModalVisible: false  , newProduct: '',newComment: '' ,user: '', expanded: false, expandeds: [], managerDisplay:'flex'}
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -33,6 +33,7 @@ export default class Store extends Component {
         if(this.props.user){
 
             this.setState({ user: this.props.user}, () => {console.log('user::',this.state.user)
+            this.isManager()
             for(i=0; i<this.state.user.products_for_rent.length; i++ ){
                 const expandeds = this.state.expandeds
                 expandeds.push(false)
@@ -74,8 +75,20 @@ export default class Store extends Component {
 
       moveToProductOwnerProfile = (username) => {
         console.log(username)
-        Actions.profile({ otherUser: 'alonbraymokk' })
+        Actions.profile({ otherUser: username })
       }
+
+      deleteProduct = (id) => {
+          return productStore.deleteProduct(id).then( response => console.log('delete p res::', response))
+                                                .catch( error => console.log(error))
+      }
+
+      isManager = () => {
+          if(this.props.user.username !== userStore.getCurrentUser().username){
+                this.setState({ managerDisplay: 'none'})
+          }
+      }
+      
 
       renderReview = (item) => {
           return(
@@ -115,10 +128,9 @@ export default class Store extends Component {
             content: content
               
           }
-          console.log('review before sent::', review)
           productStore.addReview(review).then( response => console.log('res::',response)).catch( error => console.log('err::',error))
           this.setState({ newComment: ''})
-          console.log('commented')
+          
       }
     renderItem = (item) => {
         console.log('itemm:',item)
@@ -129,6 +141,11 @@ export default class Store extends Component {
                         <Image source={{ uri: item.item.image}} style={{ height: 200, width: 150}} />
                    </View>
                    <View style={{ margin: 20}}>
+                        <View style={{ width:150, justifyContent:'flex-end', alignItems:'flex-end', display:this.state.managerDisplay}}>
+                            <TouchableOpacity onPress={ () => this.deleteProduct(item.item._id)}>
+                                <Image source={require('../assets/trash.png')} style={{ height: 30, width: 20}} />    
+                            </TouchableOpacity>
+                        </View>
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
                        </View>
@@ -142,20 +159,19 @@ export default class Store extends Component {
                        <View style={[ styles.textMargin , {width: 200} ]}>
                             <Text style={[ styles.textStyleSmaller ]}>price per day:{}  $</Text>
                        </View>
-                       <View style={{flexDirection:'row', marginTop:20}}>
+                       <View style={{flexDirection:'row', marginTop:20, display:this.state.managerDisplay}}>
                             <View>
                                 <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)} />
                             </View>
                             <View style={{marginLeft: 30}}>
                                 <TouchableOpacity activeOpacity={0.8} onPress={ () => this.changeLayout(item.index)}>
                                     <View style={{marginLeft: 20}}>
-                                        <Image source={{uri: 'https://image.flaticon.com/icons/png/512/707/707675.png'}} style={{width:30, height:30}} />
+                                        <Image source={ require('../assets/chat.png')} style={{width:30, height:30}} />
                                     </View>
-                                    <Text style={{fontWeight:'bold'}}>comment</Text>
+                                    <View style={{marginLeft: 15}}>
+                                        <Text style={{fontWeight:'bold', color: '#0843a3', textAlign:'center'}}>add{"\n"}review</Text>
+                                    </View>
                                 </TouchableOpacity>
-                                {/* <View style={{ height: this.state.expanded ? null : 0, overflow: 'hidden' }}>
-                                    
-                                </View> */}
                             </View>
                        </View>                              
                    </View>
@@ -163,7 +179,7 @@ export default class Store extends Component {
                <View>
                     <ScrollView nestedScrollEnabled>
                         <View>
-                            <Text>ReViews:</Text>
+                            <Text>Reviews:</Text>
                         </View>
                         <View style={{ borderWidth: 2, padding:5, borderRadius:10}}>
                             <FlatList 
@@ -221,7 +237,7 @@ export default class Store extends Component {
                                 <Text>{this.state.user.email}</Text>
                             </View>
                         </View>
-                            <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5}}>
+                            <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5, display:this.state.managerDisplay}}>
                                 <TouchableOpacity onPress={this._toggleModal}>
                                     <Text style={{ textAlign: 'center', fontWeight: 'bold'}}>
                                         Add New Product

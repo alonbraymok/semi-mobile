@@ -5,9 +5,8 @@ import Button from '../components/Button';
 import { Actions } from 'react-native-router-flux';
 import Header from '../components/Header';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-
+import RatingStar from '../components/RatingStar'
 import Slidder from '../components/Slidder';
-
 import ProductStore from '../stores/ProductStore';
 import rootStores from '../stores';
 import { observer } from 'mobx-react';
@@ -98,7 +97,7 @@ export default class Search extends Component {
 
     moveToProductOwnerProfile = (username) => {
       console.log(username)
-      Actions.profile({ otherUser: 'alonbraymokk' })
+      Actions.profile({ otherUser: username })
     }
     
     findProduct = (productName) => {
@@ -110,36 +109,62 @@ export default class Search extends Component {
       this.setState({ searchProducts: buffer})
     }
 
+    renderOneReview = (reviews) => {
+      if(reviews[0] !== undefined){
+        return(
+        <View>
+          <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row', backgroundColor:'#e8f6ff'}}>
+               <View style={{margin: 5}}>
+               <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile(reviews[0].creator.username)}>
+                   <Image source={{ uri: reviews[0].creator.profile_image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+               </TouchableOpacity>
+                   <Text style={{textAlign:'center', fontWeight:'bold'}}>{reviews[0].creator.username}</Text>
+               </View>
+               <View style={[ ]}>
+                   <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{reviews[0].content}</Text>
+                   <RatingStar size={10}/>
+               </View>
+           </View>  
+       </View>
+        )
+      }
+    }
+
     renderItem = (item) => {
       console.log('item::', item)
+
         return(
             <View style={{borderTopWidth: 1 }}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
                    <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile('tom lochi')}>
-                        <Image source={{ uri: 'https://images.ctfassets.net/mx6ynh02r1ko/1AyjchEw0Q4OWUgAwy2yqG/55c6e32e8f63eb209f9a3112dd0f63aa/DE1A2564.jpg'}} style={{ height: 200, width: 150}} />
+                        <Image source={{ uri: 'https://cdn.mec.ca/medias/sys_master/high-res/high-res/8796369977374/5044850-BK006.jpg'}} style={{ height: 200, width: 150}} />
                    </TouchableOpacity>
                    </View>
-                   <View style={{ margin: 20}}>
-                       <View style={[ styles.textMargin ]}>
-                            <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
+                   <View style={{ margin: 20, maxHeight: 250}}>
+                       <View style={{ marginVertical: 3}}>
+                            <Text style={{ fontWeight:'bold'}}>{item.item.name}</Text>
                        </View>
-                       <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                            <Text style={[ styles.textStyle ]}>{item.item.category.name}</Text>
+                       <View style={[ {marginVertical: 3,flexDirection: 'row'} ]}>
+                            <Text style={{ fontWeight:'bold'}}>{item.item.category.name}</Text>
                             
                        </View>
-                       <View style={[ styles.textMargin ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
+                       <View style={{ marginVertical: 3, width: 150,maxHeight: 50}}>
+                            <Text style={{ fontWeight:'bold'}}>{item.item.description}</Text>
                        </View>
-                       <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>price per day: {item.item.plans[0].price} $</Text>
+                       <View style={[{marginVertical: 10,width: 200} ]}>
+                            <Text style={{ fontWeight:'bold'}}>price per day: {item.item.plans[0].price} $</Text>
                        </View>
-                       <View>
+                       
+                       <View style={{ alignItems:'flex-end', justifyContent:'flex-end', marginRight: 50, marginTop: 20}}>
                            <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)}/>
                        </View>
                            
                    </View>
                </View>
+               <View style={{padding:5}}>
+                  {this.renderOneReview(item.item.reviews)}
+                </View>
             </View>
         )
     }
@@ -147,7 +172,7 @@ export default class Search extends Component {
     render() {
         return(
            <ScrollView style={{ backgroundColor: 'white'}} nestedScrollEnabled>
-               <Header clean headerText={'SEMI'} />
+               <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
                
                <View>
                   <SearchableDropdown

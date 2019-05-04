@@ -62,7 +62,7 @@ export default class RentedList extends Component {
 
     render() {
         return(
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'white'}}>
                 <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
                 <View style={{ justifyContent:'center', alignItems: 'center', margin: 15}}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold'}}>My Rented Products</Text>

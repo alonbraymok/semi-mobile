@@ -19,7 +19,7 @@ export default class Profile extends Component {
 
     constructor(props){
         super(props)
-        this.state = { user:'', email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', show: 'none', 
+        this.state = { user:'', email: 'Alonbraymok@gmail.com', address: 'Tel Aviv', show: 'none', managerDisplay: 'none',
                        storeDescription: 'this is my store description  dsadas dsadasda dadadasdsa' ,profileImage: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4'}
     }
 
@@ -29,24 +29,32 @@ export default class Profile extends Component {
         if(this.props.otherUser !== undefined){
             userStore.getUserByUserName(this.props.otherUser).then( response => {
                 console.log(response)
-                this.setState({ user: response.data.data }, ()=>console.log('other user::',this.state.user)) 
+                this.setState({ user: response.data.data }, () => this.isManager()) 
             }).catch( error => {console.log(error)})
         }else{
-            this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user)) 
+            this.setState({ user: userStore.getCurrentUser()}, () => this.isManager()) 
         }
     }
 
-    products_to_rent = [
-        { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
-         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
-         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
-         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
-         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
-         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
-         { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
-         reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
-         ]
- 
+    // products_to_rent = [
+    //     { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+    //      reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+    //      { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+    //      reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+    //      { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+    //      reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+    //      { name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg',
+    //      reviews: {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'}},
+    //      ]
+    
+    isManager = () => {
+        if(this.props.otherUser !== undefined){
+            if(this.props.otherUser.username !== userStore.getCurrentUser().username){
+                this.setState({ managerDisplay: 'flex'})
+            }
+        }
+    }
+
     taggleSideMenu = () =>{
         if(this.state.show === 'none'){
             this.setState({ show: 'flex' })
@@ -64,7 +72,7 @@ export default class Profile extends Component {
     logout = () => {
         userStore.logout().then( response => {
             console.log('response::', response)
-            //Actions.login()
+            Actions.login()
         }).catch( error => console.log(error))
     }
 
@@ -101,6 +109,11 @@ export default class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.store({ user: this.state.user }) }> 
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Store</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View style={{ margin: 10}}>
                             <TouchableOpacity onPress={ () => Actions.rentedList() }> 
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
@@ -144,12 +157,12 @@ export default class Profile extends Component {
                <View style={[ styles.center]}>
                    <Text style={[ styles.storename ]}>My Store Name</Text>
                </View>
-               <View style={[ styles.center ]}>
+               <View style={[ styles.center, {marginBottom: 20} ]}>
                    {this.returnCarousel()}
                </View>
-               <View style={[ styles.center ]}>
+               <View style={[ styles.center, {marginVertical:10, display: this.state.managerDisplay} ]}>
                   <TouchableOpacity onPress={ () => Actions.store({ user: this.state.user }) }>
-                      <Text style={{fontWeight: '600'}}>Check out my all products! </Text>
+                      <Text style={{fontWeight: '600', fontSize:20}}>Check out my all products! </Text>
                   </TouchableOpacity>
                </View>
         </ScrollView>
@@ -169,6 +182,11 @@ export default class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.store({ user: this.state.user }) }> 
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Store</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View style={{ margin: 10}}>
                             <TouchableOpacity onPress={ () => Actions.rentedList() }> 
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
