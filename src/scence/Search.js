@@ -70,23 +70,6 @@ export default class Search extends Component {
     }
     
 
-      products = [
-        {id:'dsadvasdasd', name: 'prodcxvuct name', category: 'category', description: 'product dcxviscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product zxcvzxcname', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'catzxcvegory', description: 'product discxzcvription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'productcxvzxcv name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'productxczvxcv name', category: 'category', description: 'produxcvct discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'categcxvzory', description: 'product cxzdiscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product cxzvcxvname', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product dicxvzxscription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-        {id:'dsadasdasd', name: 'product name', category: 'category', description: 'product discription', price: 100, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'},
-
-    ]
-
     setSliderValues = (value) => {
       this.setState({ sliderValues : value})
     }
@@ -112,6 +95,11 @@ export default class Search extends Component {
       productStore.setProductBuffer(product)
       Actions.prodectPage({product})
     }
+
+    moveToProductOwnerProfile = (username) => {
+      console.log(username)
+      Actions.profile({ otherUser: 'alonbraymokk' })
+    }
     
     findProduct = (productName) => {
       buffer = []
@@ -128,7 +116,9 @@ export default class Search extends Component {
             <View style={{borderTopWidth: 1 }}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
+                   <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile('tom lochi')}>
                         <Image source={{ uri: 'https://images.ctfassets.net/mx6ynh02r1ko/1AyjchEw0Q4OWUgAwy2yqG/55c6e32e8f63eb209f9a3112dd0f63aa/DE1A2564.jpg'}} style={{ height: 200, width: 150}} />
+                   </TouchableOpacity>
                    </View>
                    <View style={{ margin: 20}}>
                        <View style={[ styles.textMargin ]}>
@@ -156,7 +146,7 @@ export default class Search extends Component {
 
     render() {
         return(
-           <ScrollView style={{ backgroundColor: 'white'}}>
+           <ScrollView style={{ backgroundColor: 'white'}} nestedScrollEnabled>
                <Header clean headerText={'SEMI'} />
                
                <View>
@@ -224,12 +214,15 @@ export default class Search extends Component {
               </View>
 
               <View>
-                <ScrollView>
+                <ScrollView nestedScrollEnabled>
+                    <View>
+
                   <FlatList 
                       data={this.state.searchProducts}
                       renderItem={ (item) => this.renderItem(item)}
                       extraData={this.state}
-                  />
+                      />
+                    </View>
                   </ScrollView>
               </View>
               

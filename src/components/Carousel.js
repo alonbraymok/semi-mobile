@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, View, StyleSheet, Image, Dimensions, ScrollView,Text } from 'react-native'
+import { Animated, View, StyleSheet, Image, Dimensions, ScrollView,Text, FlatList } from 'react-native'
 import Button from './Button';
 import RatingStar from './RatingStar';
 import { Actions } from 'react-native-router-flux';
@@ -22,16 +22,18 @@ import {observer} from 'mobx-react'
 import ProductStore from '../stores/ProductStore';
 
 
+
 const productStore = rootStores[ProductStore];
 @observer 
 export default class Carousel extends Component {
 
     constructor(props){
         super(props)
+        console.log('props::', this.props)
     }
 
   
-
+  
   products = this.props.products 
   numItems = this.props.products.length
   itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)
@@ -41,7 +43,22 @@ export default class Carousel extends Component {
     productStore.setProductBuffer(product)
     Actions.prodectPage({product})
   }
-
+  renderReview = (item) => {
+    return(
+      <View>
+         <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
+              <View style={{margin: 5}}>
+                  <Image source={{ uri: item.item.creator.profile_image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+                  <Text style={{textAlign:'center', fontWeight:'bold'}}>{item.item.creator.username}</Text>
+              </View>
+              <View style={[ ]}>
+                  <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{item.item.content}</Text>
+                  <RatingStar size={15}/>
+              </View>
+          </View>  
+      </View>
+    )
+  }
 
   render() {
     let imageArray = []
@@ -57,29 +74,37 @@ export default class Carousel extends Component {
                         <Text>{products.name}</Text>
                     </View>
                     <View>
-                        <Text>{products.category}</Text>
+                        <Text>{products.category.name}</Text>
                     </View>
                     <View>
                         <Text>{products.description}</Text>
                     </View>
                     <View>
-                        <Text>Price per day: {products.price}</Text>
+                        <Text>Price per day: {products.retail_price}</Text>
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', marginLeft: 50}}>
                     <Button height={50} width={100} label={'RENT!'} onPress={ () => this.goToProductPage(products)}/>
                 </View>
+            </View>
+            <View>
+              <ScrollView>
+                  <FlatList 
+                      data={products.reviews}
+                      renderItem={ (item) => this.renderReview(item)}
+                  />
+              </ScrollView>
             </View> 
-            <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
-            <View style={{margin: 5}}>
-                <Image source={{ uri: products.reviews.image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>{products.reviews.name}</Text>
-            </View>
-            <View style={[ ]}>
-                <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{products.reviews.content}</Text>
-                <RatingStar size={15}/>
-            </View>
-        </View>  
+            {/* <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
+                <View style={{margin: 5}}>
+                    <Image source={{ uri: products.reviews.image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+                    <Text style={{textAlign:'center', fontWeight:'bold'}}>{products.reviews.name}</Text>
+                </View>
+                <View style={[ ]}>
+                    <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{products.reviews.content}</Text>
+                    <RatingStar size={15}/>
+                </View>
+            </View>   */}
         </View>
       )
       imageArray.push(thisImage)

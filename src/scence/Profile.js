@@ -24,7 +24,16 @@ export default class Profile extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user)) 
+        console.log('propss:', this.props)
+        
+        if(this.props.otherUser !== undefined){
+            userStore.getUserByUserName(this.props.otherUser).then( response => {
+                console.log(response)
+                this.setState({ user: response.data.data }, ()=>console.log(' user::',this.state.user)) 
+            }).catch( error => {console.log(error)})
+        }else{
+            this.setState({ user: userStore.getCurrentUser()}, ()=>console.log('user::',this.state.user)) 
+        }
     }
 
     products_to_rent = [
@@ -58,10 +67,28 @@ export default class Profile extends Component {
             //Actions.login()
         }).catch( error => console.log(error))
     }
+
+    returnCarousel = () =>{
+        if(this.state.user.products_for_rent === undefined){
+            return(
+                <View style={{ justifyContent:'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => Actions.createStore()}>
+                        <Text>Open your first store !</Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }else{
+            return(
+                <View>
+                    <Carousel products={this.state.user.products_for_rent}></Carousel>
+                </View>
+            )
+        }
+    }
     
 
     render() {
-        if(this.state.user){//this.state.user.store
+        if(this.state.user.products_to_rent !== [] ){//this.state.user.store
 
             return(
             <ScrollView style={{backgroundColor: 'white'}}>
@@ -118,23 +145,77 @@ export default class Profile extends Component {
                    <Text style={[ styles.storename ]}>My Store Name</Text>
                </View>
                <View style={[ styles.center ]}>
-                   <Carousel products={this.products_to_rent}></Carousel>
+                   {this.returnCarousel()}
                </View>
                <View style={[ styles.center ]}>
-                  <TouchableOpacity onPress={ () => Actions.store() }>
+                  <TouchableOpacity onPress={ () => Actions.store({ user: this.state.user }) }>
                       <Text style={{fontWeight: '600'}}>Check out my all products! </Text>
                   </TouchableOpacity>
                </View>
         </ScrollView>
         );
     }else{
+
+
         return(
-            <View style={{ justifyContent:'center', alignItems: 'center'}}>
-                <TouchableOpacity onPress={ () => Actions.createStore()}>
-                    <Text>Open your first store !</Text>
-                </TouchableOpacity>
-            </View>
-        )
+            <ScrollView style={{backgroundColor: 'white'}}>
+               <Header search_hamburger headerText={'SEMI'} onPressHamburger={ () => this.taggleSideMenu()} onPressSearch={ () => Actions.search() }/>
+               <View>
+               <View style={{ width: '50%', height: '100%', backgroundColor: '#0843a3', display: this.state.show, zIndex: 5}}>
+                    <View>
+                        <TouchableOpacity onPress={ () => this.logout()}>
+                            <Image source={{ uri: 'https://cdn0.iconfinder.com/data/icons/housing-interface-1/16/Power-512.png'}} style={{margin: 10, width: 30, height: 30 }} />
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.rentedList() }> 
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Renting</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>My Payment </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ margin: 10}}>
+                            <TouchableOpacity onPress={ () => Actions.notifictionCenter()}>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}>Notifiction Center </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+               </View>
+               <View style={{ flexDirection: 'row'}}>
+                   <View style={{ margin: 10}}>
+                        <Image source={{ uri: this.state.profileImage}} style={{ height: 200, width: 150, borderRadius: 10}} />
+                   </View>
+                   <View style={{ margin: 20}}>
+                       <View style={[ styles.textMargin ]}>
+                            <Text style={[ styles.textStyle ]}>{this.state.user.first_name} {this.state.user.last_name}</Text>
+                       </View>
+                       <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
+                            <Text style={[ styles.textStyle ]}>{this.state.address}</Text>
+                            <View style={[ styles.center , {marginLeft: 10}]}>
+                                <Image source={require('../assets/location.png')} style={[ styles.locationImage ]}/>
+                            </View>
+                       </View>
+                       <View style={[ styles.textMargin ]}>
+                            <Text style={[ styles.textStyleSmaller ]}>{this.state.user.email}</Text>
+                       </View>
+                       <View style={[ styles.textMargin , {width: 200} ]}>
+                            <Text style={[ styles.textStyleSmaller ]}>{this.state.storeDescription}</Text>
+                       </View>
+                   </View>
+               </View>
+               <View style={{ justifyContent:'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => Actions.createStore()}>
+                        <Text>Open your first store !</Text>
+                    </TouchableOpacity>
+                </View>
+        </ScrollView>
+        );
+        
     }
         
     }

@@ -30,7 +30,7 @@ export default class Store extends Component {
 
 
     componentDidMount = () => {
-        this.setState({ user: userStore.getCurrentUser()}, () => {console.log('user::',this.state.user)
+        this.setState({ user: this.props.user}, () => {console.log('user::',this.state.user)
         for(i=0; i<this.state.user.products_for_rent.length; i++ ){
             const expandeds = this.state.expandeds
             expandeds.push(false)
@@ -61,6 +61,10 @@ export default class Store extends Component {
         this.setState({ collapsed: !this.state.collapsed });
       };
 
+      moveToProductOwnerProfile = (username) => {
+        console.log(username)
+        Actions.profile({ otherUser: 'alonbraymokk' })
+      }
 
       renderReview = (item) => {
           return(
@@ -68,7 +72,9 @@ export default class Store extends Component {
                   <View style={{flexDirection: 'row'}}>
                     <View>
                         <View>
-                            <Image source={{uri: item.item.creator.profile_image}} style={{ width:30, height: 30}} />
+                            <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile(item.item.creator.username)}>
+                                <Image source={{uri: item.item.creator.profile_image}} style={{ width:30, height: 30}} />
+                            </TouchableOpacity>
                         </View>
                         <View>
                             <Text>{item.item.creator.username}</Text>
@@ -123,7 +129,7 @@ export default class Store extends Component {
                             <Text style={[ styles.textStyleSmaller ]}>{item.item.description}</Text>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>price per day:  $</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>price per day:{}  $</Text>
                        </View>
                        <View style={{flexDirection:'row', marginTop:20}}>
                             <View>
@@ -220,6 +226,9 @@ export default class Store extends Component {
                         renderItem={ (item) => this.renderItem(item)}
                         extraData={this.state}
                     />
+                </View>
+                <View style={{justifyContent:'center', alignItems:'center'}}>
+                    <Text>Empty Store..</Text>
                 </View>
            </ScrollView>
         );

@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-
+const URL_AUTH = 'http://semi.webo-tech.com/api/auth'
+const URL_USERS = 'http://semi.webo-tech.com/api/users'
  class UserService {
 
     
     signin = (email, password) => { 
               
         const body = { email, password }
-             return axios.post('http://semi.webo-tech.com/api/auth/login', body)
+             return axios.post(`${URL_AUTH}/login`, body)
     }
 
     signup = (user) => {
@@ -15,17 +16,20 @@ import axios from 'axios';
         console.log('herre') 
         const body = {...user }
         console.log(body)
-            return axios.post('http://semi.webo-tech.com/api/auth/register', body)
+            return axios.post(`${URL_AUTH}/register`, body)
     }
     logout = () => {       
-        return axios.post('http://semi.webo-tech.com/api/auth/logout') 
+        return axios.post(`${URL_AUTH}/logout`) 
     }
     getUserRentedList = (userID) => {
-        return axios.get(`http://semi.webo-tech.com/api/auth/getUserRentedList/${userID}`)
+        return axios.get(`${URL_USERS}/getUserRentedList/${userID}`)
     }
     createStore = (store, userID) => {
         const body = {...store, userID }
-        return axios.post('http://semi.webo-tech.com/api/auth/logout', body) 
+        return axios.post(`${URL_USERS}/logout`, body) 
+    }
+    getUserByUserName = (username) => {
+        return axios.get(`${URL_USERS}/${username}`)
     }
 
     

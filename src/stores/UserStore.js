@@ -36,6 +36,9 @@ class UserStore {
         userID = this.currentUser.userID
         return UserService.createStore(store, userID)
     }
+    getUserByUserName = (username) => {
+        return UserService.getUserByUserName(username)
+    }
     
 }
 

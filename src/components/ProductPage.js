@@ -35,8 +35,8 @@ export default class ProductPage extends Component {
 
 componentDidMount = () => {
     product = productStore.getProductBuffer()
-    console.log(product)
-    this.setState({ product })
+    console.log('0',product)
+    this.setState({ product: product }, () => console.log('1'))
 }
 
 
@@ -63,16 +63,25 @@ confirmDate({startDate, endDate, startMoment, endMoment}) {
       endDate
     }, () => console.log(this.state));
   }
+
   openCalendar() {
     this.calendar && this.calendar.open();
   }
 
+  moveToProductOwnerProfile = (username) => {
+    console.log(username)
+    Actions.profile({ otherUser: username })
+  }
+
 renderItem = (item) => {
+    console.log('3')
     return(
         <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
             <View style={{margin: 5}}>
-                <Image source={{ uri: item.item.image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
-                <Text style={{textAlign:'center', fontWeight:'bold'}}>{item.item.name}</Text>
+                <TouchableOpacity  onPress={ () => this.moveToProductOwnerProfile(item.item.creator.username)}>
+                    <Image source={{ uri: item.item.creator.profile_image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
+                </TouchableOpacity>
+                <Text style={{textAlign:'center', fontWeight:'bold'}}>{item.item.creator.username}</Text>
             </View>
             <View style={[ ]}>
                 <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{item.item.content}</Text>
@@ -101,6 +110,10 @@ renderItem = (item) => {
             subColor: '#0843a3'
           };
 
+          console.log('2')
+          if(this.state.product !== ''){
+
+         
 
         return(
             
@@ -108,21 +121,21 @@ renderItem = (item) => {
                 <Header back headerText={'SEMI'} onPress={ () => Actions.store()} />
                 <View style={{ flexDirection: 'row'}}>
                     <View style={{ margin: 10}}>
-                            <Image source={{ uri: this.state.product.image}} style={{ height: 200, width: 150}} />
+                        <Image source={{ uri: this.state.product.image}} style={{ height: 200, width: 150}} />
                     </View>
                     <View style={{ margin: 20}}>
                     <View style={[ styles.textMargin ]}>
                         <Text style={[ styles.textStyle ]}>{this.state.product.name}</Text>
                     </View>
                     <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                        <Text style={[ styles.textStyle ]}>{this.state.product.category}</Text>
+                        <Text style={[ styles.textStyle ]}>{this.state.product.category.name}</Text>
                         
                     </View>
                     <View style={[ styles.textMargin ]}>
                         <Text style={[ styles.textStyle ]}>{this.state.product.description}</Text>
                     </View>
                     <View style={[ styles.textMargin , {width: 200} ]}>
-                        <Text style={[ styles.textStyle ]}>Price per day: {this.state.product.price} $</Text>
+                        <Text style={[ styles.textStyle ]}>Price per day: {this.state.product.retail_price} $</Text>
                     </View>
                     <View>
                         <RatingStar size={25}/>
@@ -186,7 +199,7 @@ renderItem = (item) => {
                     <View style={{ height: 150}}>
                         <ScrollView>
                             <FlatList
-                                data={this.reviews}
+                                data={this.state.product.reviews}
                                 renderItem={ (item) => this.renderItem(item)}
                             />
                         </ScrollView>
@@ -198,6 +211,13 @@ renderItem = (item) => {
            
             </View>
         )
+    }else{
+        return(
+            <View>
+                <Text>Loading..</Text>
+            </View>
+        )
+    }
 
     }
 
