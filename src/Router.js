@@ -17,8 +17,8 @@ import AddNewProduct from './scence/AddNewProduct';
 const Routes = () => (
    <Router>
         <Scene key = "root" hideNavBar>
-            <Scene key='addProduct' component={AddNewProduct} />
             <Scene key='login' component={Login} />
+            <Scene key='addProduct' component={AddNewProduct} />
             <Scene key='notifictionCenter' component={NotifictionCenter} />
             <Scene key='createStore' component={CreateStore} />
             <Scene key='search' component={Search} />

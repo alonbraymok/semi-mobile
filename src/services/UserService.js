@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const URL_AUTH = 'http://semi.webo-tech.com/api/auth'
 const URL_USERS = 'http://semi.webo-tech.com/api/users'
+const URL_ORDER = 'http://semi.webo-tech.com/api/orders'
  class UserService {
 
     
@@ -11,11 +12,8 @@ const URL_USERS = 'http://semi.webo-tech.com/api/users'
              return axios.post(`${URL_AUTH}/login`, body)
     }
 
-    signup = (user) => {
-        console.log(user)
-        console.log('herre') 
+    signup = (user) => { 
         const body = {...user }
-        console.log(body)
             return axios.post(`${URL_AUTH}/register`, body)
     }
     logout = () => {       
@@ -31,7 +29,11 @@ const URL_USERS = 'http://semi.webo-tech.com/api/users'
     getUserByUserName = (username) => {
         return axios.get(`${URL_USERS}/${username}`)
     }
-
+    setOrder = (providerName, consumerName, startDate, productId, plan) => {
+        body = { providerName, consumerName,startDate, productId, plan }
+        console.log('body::', body)
+        return axios.post(`${URL_ORDER}`, body)
+    }
     
 
 }

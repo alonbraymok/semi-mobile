@@ -22,6 +22,7 @@
     "react-native-collapsible": "^1.4.0",
     "react-native-date-picker": "^2.3.0",
     "react-native-image-picker": "^0.28.1",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-modal": "^9.0.0",
     "react-native-range-slider": "^0.1.2",
     "react-native-ratings": "^6.3.1",

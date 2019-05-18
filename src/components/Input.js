@@ -13,7 +13,7 @@ export default class Input extends Component {
     render() {
         return(
             <View style={[ styles.conteinerStyle ]}>
-                <TextInput placeholder={this.props.placeholder} value={this.props.value} onChangeText={this.props.onChangeText}/>
+                <TextInput style={{ fontSize:20, fontWeight:'800', marginLeft: 5}} placeholder={this.props.placeholder} value={this.props.value} onChangeText={this.props.onChangeText}/>
             </View>
         );
 
@@ -23,7 +23,7 @@ export default class Input extends Component {
 
 const styles = {
     conteinerStyle: {
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: '#0843a3',
         borderRadius: 10,
         width: '70%'

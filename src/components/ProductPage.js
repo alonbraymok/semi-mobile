@@ -9,8 +9,12 @@ import ProductStore from '../stores/ProductStore';
 import rootStores from '../stores';
 import Calendar from 'react-native-calendar-select';
 import ReadMore from 'react-native-read-more-text';
+import { Dropdown } from 'react-native-material-dropdown';
+import UserStore from '../stores/UserStore';
 
 
+
+const userStore = rootStores[UserStore];
 const productStore = rootStores[ProductStore];
 export default class ProductPage extends Component {
 
@@ -19,25 +23,76 @@ export default class ProductPage extends Component {
         this.state = {
             startDate: new Date(2019, 6, 12),  
             endDate: new Date(2019, 6, 2),
-            product: ''
+            product: '',
+            plans: [],
+            plan: 'Price plan'
           };
           this.confirmDate = this.confirmDate.bind(this);
           this.openCalendar = this.openCalendar.bind(this);
         }
     
-//     product = { name: 'skate', category:'extrem', price: 12, description:'from a doctor', starts: 4, image: 'https://surlybikes.com/uploads/bikes/_medium_image/Troll_BK0337.jpg'}
-//     seller = { name: 'eliran hasin', email: 'eliranH26@gmail.com', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4', phoneNumber: '052-8896390'}
-//     reviews = [{name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'a good shape product'},
-//     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
-//     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
-//     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
-//     {name: 'eliran hasin', image: 'https://avatars3.githubusercontent.com/u/37082941?s=460&v=4',content: 'eliran is nice woman'},
-// ]
+
 
 componentDidMount = () => {
     product = productStore.getProductBuffer()
-    console.log('0',product)
+    this.setPlans()
     this.setState({ product: product }, () => console.log('1'))
+}
+
+setPlans = () => {
+    plansBuffer = []
+    plans = productStore.getProductBuffer().plans
+    plans.forEach( paln => {
+        index = 0
+        newPlan = {
+            value : 'period: '+paln.period + ', price: ' + paln.price,
+            index: index,
+        }
+        index++
+        plansBuffer.push(newPlan)
+    });
+    this.setState({ plans: plansBuffer }, () => console.log('plans:', this.state.plans ))
+}
+
+setOrder = () => {
+
+    buffer = productStore.getProductBuffer().plans.filter( plan => {
+        if(plan.period.toString() === this.state.plan.charAt(8).toString()){
+            return plan
+        }
+    })
+
+
+    providerName = productStore.getProductBuffer().owner.username
+    consumerName = userStore.getCurrentUser().username
+    productId = productStore.getProductBuffer()._id
+    plan = buffer
+    startDate = +this.state.startDate
+    console.log('order :',providerName )
+    console.log('order :',consumerName )
+    console.log('order :',productId )
+    console.log('order :',plan )
+    console.log('order :',startDate )
+
+
+    userStore.setOrder(providerName, consumerName, startDate, productId, plan[0]).then( response => {
+        console.log('res:', response)
+        Alert.alert(
+            'Hello',
+            'Messeage been send to renter, he will contact you',
+            [
+            //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => Actions.profile()},
+            ],
+            {cancelable: false},
+          )
+        
+    }).catch( error => console.log(error))
 }
 
 
@@ -142,6 +197,14 @@ renderItem = (item) => {
                         <Text style={[ { fontSize: 15, fontWeight:'bold'} ]}>{this.state.product.plans[0].price}$ for {this.state.product.plans[0].period}</Text>
                     </View>
                     <View>
+                        <Dropdown
+                            label='Price plan'
+                            data={this.state.plans}
+                            value={this.state.plan}
+                            onChangeText={ plan => this.setState({ plan })}
+                        />
+                    </View>
+                    <View>
                         <RatingStar size={25}/>
                     </View>
                     <View style={{ flexDirection: 'row'}}>
@@ -212,7 +275,7 @@ renderItem = (item) => {
                     </View>
                 </View>
                 <View style={{ justifyContent:'flex-end', alignItems: 'center'}}>
-                    <Button height={40} width={80} label={'Rent'} onPress={ ()=> this.showAlert()} />
+                    <Button height={40} width={80} label={'Rent'} onPress={ ()=> this.setOrder()} />
                 </View> 
            
             </ScrollView>

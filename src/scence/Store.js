@@ -234,7 +234,7 @@ export default class Store extends Component {
                         </View>
                         <View>
                             <View style={[ styles.center]}>
-                                <Text style={{ fontSize: 30, fontWeight: 'bold'}}>Store name</Text>
+                                <Text style={{ fontSize: 30, fontWeight: 'bold', color:'#0843a3'}}>{this.state.user.username}'s Store</Text>
                             </View>
                             <View>
                             <View style={{ flexDirection: 'row', marginVertical: 5}}>
@@ -247,7 +247,7 @@ export default class Store extends Component {
                             </View>
                         </View>
                             <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5, display:this.state.managerDisplay}}>
-                                <TouchableOpacity onPress={this._toggleModal}>
+                                <TouchableOpacity onPress={ () => Actions.addProduct()}>
                                     <Text style={{ textAlign: 'center', fontWeight: 'bold'}}>
                                         Add New Product
                                     </Text>

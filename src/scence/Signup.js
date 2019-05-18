@@ -25,7 +25,7 @@ export default class Signup extends Component {
         }
         ImagePicker.launchImageLibrary(options, response => {
           if (response.uri) {
-            this.setState({ profileImage: response })
+            this.setState({ profileImage: response.uri })
           }
         })
       }
@@ -50,7 +50,7 @@ export default class Signup extends Component {
                </View>
                <TouchableOpacity onPress={this.handleChoosePhoto}>
                     <View style={[ styles.center, styles.vMargin ]}>
-                        <Image source={{ uri: this.state.profileImage }} style={{ width: 80, height: 80 }} />
+                        <Image source={{ uri: this.state.profileImage }} style={{ width: 80, height: 80, borderRadius: 30 }} />
                     </View>
                 </TouchableOpacity>
                <View>

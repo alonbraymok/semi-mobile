@@ -14,6 +14,7 @@ export default class Login extends Component {
         super(props)
         this.state = { email: 'alon@gmail.com', password: '123456'}
     }
+
     signInPressed = () => {
        
         userStore.signin(this.state.email, this.state.password).then( response => {

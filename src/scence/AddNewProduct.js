@@ -40,7 +40,7 @@ export default class AddNewProduct extends Component {
       addProduct = () => {
         console.log('user::', userStore.getCurrentUser())
         product = {
-            username: 'alonbraymok',
+            username: userStore.getCurrentUser().username,
             name: this.state.name,
             category: this.state.category,
             description: this.state.description,
@@ -89,7 +89,7 @@ export default class AddNewProduct extends Component {
                        <Input placeholder={'Discription'} value={this.state.address} onChangeText={ (description) => this.setState({  description }) }/>
                    </View>
                    <View style={[ styles.center, styles.vMargin ]}>
-                       <Input placeholder={'Total name'} value={this.state.firstname} onChangeText={ (price) => this.setState({  price }) }/>
+                       <Input placeholder={'Price per day'} value={this.state.firstname} onChangeText={ (price) => this.setState({  price }) }/>
                    </View>                  
                </View>
                <View style={[ styles.center]}>

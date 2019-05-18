@@ -39,7 +39,10 @@ class UserStore {
     getUserByUserName = (username) => {
         return UserService.getUserByUserName(username)
     }
-    
+    setOrder = (providerName, consumerName,startDate, productId, plan) => {
+        return UserService.setOrder(providerName, consumerName, startDate, productId, plan)
+        
+    }
 }
 
 export default UserStore;

@@ -90,8 +90,8 @@ export default class Profile extends Component {
         if(this.state.user.products_for_rent === undefined){
             return(
                 <View style={{ justifyContent:'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => Actions.createStore()}>
-                        <Text>Open your first store !</Text>
+                    <TouchableOpacity onPress={ () => Actions.store()}>
+                        <Text>Add your first product !</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -164,8 +164,8 @@ export default class Profile extends Component {
                        </View>
                    </View>
                </View>
-               <View style={[ styles.center]}>
-                   <Text style={[ styles.storename ]}>My Store Name</Text>
+               <View style={[ styles.center,{ marginBottom: 10 }]}>
+                   <Text style={[ styles.storename ]}>Latest Products</Text>
                </View>
                <View style={[ styles.center, {marginBottom: 20} ]}>
                    {this.returnCarousel()}
