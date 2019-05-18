@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const URL = 'http://semi.webo-tech.com/api/products'
+const URL_ORDER = 'http://semi.webo-tech.com/api/orders'
 
  class ProductService {
 
@@ -42,8 +43,18 @@ const URL = 'http://semi.webo-tech.com/api/products'
     deleteProduct = (productID) => {
         return  axios.delete(`${URL}/${productID}`)
     }
-
-    
+    getProductOrder = (id) => {
+        return axios.get(`${URL_ORDER}/${id}`) 
+    }
+    confirmOrder = (orderId,providerName) => {
+        body = { orderId, providerName, accepted: 'handled' }
+        console.log({body})
+        return axios.put(`${URL_ORDER}/accept/`, body)
+    }
+    canselOrder = (orderId,providerName) => {
+        body = { orderId, providerName, accepted: 'rejected' }
+        return axios.put(`${URL_ORDER}/accept/`, body)
+    }
 
 }
 export default new ProductService();

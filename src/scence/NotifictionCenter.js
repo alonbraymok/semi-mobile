@@ -5,9 +5,13 @@ import rootStores from '../stores';
 import {observer} from 'mobx-react/native';
 import Header from '../components/Header';
 import MessegeDisplayer from '../components/MessegeDisplayer';
+import UserStore from '../stores/UserStore';
+import ProductStore from '../stores/ProductStore';
 
 
 
+const userStore = rootStores[UserStore];
+const productStore = rootStores[ProductStore];
 export default class NotifictionCenter extends Component {
 
     constructor(props){
@@ -24,23 +28,60 @@ export default class NotifictionCenter extends Component {
             { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
             { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
             { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-        ]
+        ],
+        notifiction: [],
+        ref: false
     
     }
       
     }
 
+
+    componentDidMount = () => {
+        messege = userStore.getCurrentUser().orders_as_provider.slice(0)
+        console.log(messege)
+        messege.forEach( p  => {
+            console.log(p)
+            productStore.getProductOrder(p).then( response => {
+                console.log('res:', response)
+                m = {
+                    consumer: {
+                        username: response.data.data.consumer.username,
+                        email: response.data.data.consumer.email,
+                        phone: response.data.data.consumer.phone_number,
+                        city: response.data.data.consumer.address.city,
+                        profile_image: response.data.data.consumer.profile_image
+                    },
+                    product: {
+                        name: response.data.data.product.name,
+                        image: response.data.data.product.image,
+                        plan: {
+                            period: response.data.data.plan.period,
+                            price: response.data.data.plan.price
+                        },
+                        from: response.data.data.start_time,
+                        to: response.data.data.finish_time,
+                    },
+                    id: response.data.data._id
+                }
+                console.log('m:', m)
+                buffer = this.state.notifiction.slice(0)
+                buffer.push(m)
+                this.setState({ notifiction: buffer, ref: true}, () => console.log(this.state.notifiction))
+            }).catch( err => console.log(err))
+        });
+    }
     
 
     renderItemList = (item) => {
+        console.log({item})
         return(
-            <MessegeDisplayer title={item.item['title']} image={item.item['profileImage']} date={item.item['date']}
-                              fname={item.item['firstname']} lname={item.item['lastname']} messege={item.item['content']}/>  
+            <MessegeDisplayer item={item}/>  
         );
     }
 
     render() {
-
+      if(this.state.ref){
       return (
             <ScrollView style={[{backgroundColor: 'white'}]} nestedScrollEnabled>
                 <Header back headerText={'SEMI'} onPress={ () => Actions.profile()}/>
@@ -54,14 +95,22 @@ export default class NotifictionCenter extends Component {
                     <View style={[ styles.bottomborder]}>
                         <ScrollView style={[ {height: 350}]} nestedScrollEnabled>
                             <FlatList
-                                data={this.state.newMesseges}
+                                data={this.state.notifiction}
                                 renderItem={ (item) => this.renderItemList(item) }
+                                extraData={this.state}
                             />
                         </ScrollView>
                     </View>
                 </View>              
             </ScrollView>
       );
+                }else{
+                    return(
+                        <View>
+                            <Text>Loading data..</Text>
+                        </View>
+                    )
+                }
     }
   }
 

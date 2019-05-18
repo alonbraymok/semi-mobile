@@ -2,7 +2,15 @@
 import React, { Component } from 'react';
 import { Image, View, Text, Platform, UIManager, TouchableOpacity, LayoutAnimation } from 'react-native';
 import Button from '../components/Button';
+const moment = require('moment');
+import ProductStore from '../stores/ProductStore';
+import rootStores from '../stores';
+import UserStore from '../stores/UserStore';
 
+
+
+const userStore = rootStores[UserStore];
+const productStore = rootStores[ProductStore];
 export default class MessegeDisplayer extends Component {
 
     constructor(props){
@@ -19,9 +27,18 @@ export default class MessegeDisplayer extends Component {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         this.setState({ expanded: !this.state.expanded });
     }
+
+    confirmOrder = (id, provider) => {
+        productStore.confirmOrder(id, provider).then(res => console.log(res)).catch(err => console.log(err))
+    }
+
+    canselOrder = (id, provider) => {
+        productStore.canselOrder(id, provider).then(res => console.log(res)).catch(err => console.log(err))
+    }
  
 
     render() {
+        console.log('props::', this.props)
         return (
             <View style={[ styles.cardStyle, styles.center ]}>
            
@@ -33,28 +50,38 @@ export default class MessegeDisplayer extends Component {
                            /> 
                         </View>
                         <View style={[ styles.center, styles.lMargin ]}>
-                            <Text style={[ styles.bold ]}>{this.props.title}</Text>
-                            <Text style={[ styles.bold, styles.blueText ]}>{this.props.date}</Text>
+                            <Text style={[ styles.bold ]}>rent request</Text>
+                            <Text style={[ styles.bold, styles.blueText ]}>{moment(this.props.item.item.product.from).format('DD/MM/YY')}</Text>
                         </View>
                         <View style={[ styles.center, styles.lMargin ]}>
-                            <Text style={[ styles.usernameTextStyle ]}>{this.props.fname}</Text>
-                            <Text style={[ styles.usernameTextStyle ]}>{this.props.lname}</Text>
+                            <Text style={[ styles.usernameTextStyle ]}>{this.props.item.item.consumer.username}</Text>
                         </View>
                         <View style={[{marginLeft: 25}, styles.vMargin]}>
-                            <Image source={{ uri : this.props.image}} style={[ styles.profileImage ]}/>
+                            {/* <Image source={{ uri : this.props.item.item.cunsumer.profile_image}} style={[ styles.profileImage ]}/> */}
                         </View>
                     </View>
                 </TouchableOpacity>
-                <View style={{ height: this.state.expanded ? null : 0, overflow: 'hidden' }}>
+                <View style={{ height: this.state.expanded ? null : 0, overflow: 'hidden', justifyContent:'flex-start' }}>
                     <View style={[ styles.center ]}>
-                        <Text style={[ styles.usernameTextStyle, styles.bold ]}>{this.props.messege}</Text>
+                        <View style={{marginVertical: 5}}>
+                            <Text style={[ styles.usernameTextStyle, styles.bold ]}>{this.props.item.item.product.name}</Text>
+                        </View>  
+                        <View style={{marginVertical: 5}}>
+                            <Text style={[ styles.usernameTextStyle, styles.bold ]}>from: {moment(this.props.item.item.product.from).format('DD/MM/YY')}</Text>
+                        </View>  
+                        <View style={{marginVertical: 5}}>
+                            <Text style={[ styles.usernameTextStyle, styles.bold ]}>to: {moment(this.props.item.item.product.to).format('DD/MM/YY')}</Text>
+                        </View> 
+                        <View style={{marginVertical: 5}}>
+                            <Text style={[ styles.usernameTextStyle, styles.bold ]}>period: {this.props.item.item.product.plan.period} days</Text>
+                        </View>
                     </View>
                     <View style={[ styles.row, styles.center, styles.margin ]}>
                         <View style={[styles.margin ]}>
-                            <Button height={40} width={100} label={'CONFIRM'} onPress={ () => console.log('')}/>
+                            <Button height={40} width={100} label={'CONFIRM'} onPress={ () => this.confirmOrder(this.props.item.item.id, this.props.item.item.consumer.username)}/>
                         </View> 
                         <View style={[styles.margin ]}> 
-                            <Button height={40} width={100} label={'CANCEL'} onPress={ () => console.log('')}/>
+                            <Button height={40} width={100} label={'CANCEL'} onPress={ () => this.canselOrder(this.props.item.item.id, this.props.item.item.consumer.username)}/>
                         </View>  
                     </View>
                 </View>

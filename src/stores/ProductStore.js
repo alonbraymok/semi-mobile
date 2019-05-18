@@ -42,7 +42,15 @@ class ProductStore {
     deleteProduct = (productID) => {
         return ProductService.deleteProduct(productID)
     }
-    
+    getProductOrder = (id) => {
+        return ProductService.getProductOrder(id)
+    }
+    confirmOrder = (id, provider) => {
+        return ProductService.confirmOrder(id, provider)
+    }
+    canselOrder = (id, provider) => {
+        return ProductService.confirmOrder(id, provider)
+    }
 }
 
 export default ProductStore;
