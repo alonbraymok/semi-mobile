@@ -150,12 +150,12 @@ export default class Profile extends Component {
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyle ]}>{this.state.user.first_name} {this.state.user.last_name}</Text>
                        </View>
-                       <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
-                            <Text style={[ styles.textStyle ]}>{this.state.address}</Text>
-                            <View style={[ styles.center , {marginLeft: 10}]}>
+                       {/* <View style={[ styles.textMargin , {flexDirection: 'row'} ]}>
                                 <Image source={require('../assets/location.png')} style={[ styles.locationImage ]}/>
+                            <View style={[ styles.center , {marginLeft: 10}]}>
+                                <Text style={[ styles.textStyle ]}>{this.state.user.last_name}</Text>
                             </View>
-                       </View>
+                       </View> */}
                        <View style={[ styles.textMargin ]}>
                             <Text style={[ styles.textStyleSmaller ]}>{this.state.user.email}</Text>
                        </View>
@@ -165,12 +165,12 @@ export default class Profile extends Component {
                    </View>
                </View>
                <View style={[ styles.center,{ marginBottom: 10 }]}>
-                   <Text style={[ styles.storename ]}>Latest Products</Text>
+                   <Text style={[ styles.storename, {color: '#04268c'} ]}>Latest Products</Text>
                </View>
-               <View style={[ styles.center, {marginBottom: 20} ]}>
+               <View style={[ styles.center, {marginBottom: 5} ]}>
                    {this.returnCarousel()}
                </View>
-               <View style={[ styles.center, {marginVertical:10, display: this.state.managerDisplay} ]}>
+               <View style={[ styles.center, {marginVertical:2, display: this.state.managerDisplay} ]}>
                   <TouchableOpacity onPress={ () => Actions.store({ user: this.state.user }) }>
                       <Text style={{fontWeight: '600', fontSize:20}}>Check out my all products! </Text>
                   </TouchableOpacity>

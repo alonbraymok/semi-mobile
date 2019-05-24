@@ -102,10 +102,10 @@ export default class Store extends Component {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Text>{item.item.creator.username}</Text>
+                            <Text style={{fontWeight:'bold'}}>{item.item.creator.username}</Text>
                         </View>
                     </View>
-                    <View>
+                    <View style={{justifyContent:'center', alignItems:'center'}}>
                         <Text>{item.item.content}</Text>
                     </View>
                   </View>
@@ -138,9 +138,10 @@ export default class Store extends Component {
         console.log('ready!');
       }
     renderItem = (item) => {
-        
+        name = item.item.name.substring(0,10)
+
         return(
-            <View style={{borderTopWidth: 1 , padding:5}}>
+            <View style={{borderTopWidth: 1 , padding:5, borderColor: '#172c68'}}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
                         <Image source={{ uri: item.item.images[0]}} style={{ height: 200, width: 150}} />
@@ -152,7 +153,7 @@ export default class Store extends Component {
                             </TouchableOpacity>
                         </View>
                        <View style={[ styles.textMargin, {width:150} ]}>
-                            <Text style={[ styles.textStyle ]}>{item.item.name}</Text>
+                            <Text style={[ styles.textStyle ]}>{name}</Text>
                        </View>
                        <View style={[ styles.textMargin , {flexDirection: 'row',width:150} ]}>
                             <Text style={[ styles.textStyle ]}>{item.item.category.name}</Text>
@@ -166,10 +167,10 @@ export default class Store extends Component {
                             </ReadMore>
                        </View>
                        <View style={[ styles.textMargin , {width: 200} ]}>
-                            <Text style={[ styles.textStyleSmaller ]}>{item.item.plans[0].price} for {item.item.plans[0].period}</Text>
+                            <Text style={[ styles.textStyleSmaller ]}>{item.item.plans[0].price} for {item.item.plans[0].period} day</Text>
                        </View>
-                       <View style={{flexDirection:'row', marginTop:20, display:this.state.managerDisplay}}>
-                            <View>
+                       <View style={{flexDirection:'row', marginTop:20}}>
+                            <View style={{display:this.state.managerDisplay}}>
                                 <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)} />
                             </View>
                             <View style={{marginLeft: 30}}>
@@ -188,9 +189,9 @@ export default class Store extends Component {
                <View>
                     <ScrollView nestedScrollEnabled>
                         <View>
-                            <Text>Reviews:</Text>
+                            <Text style={{color:'#172c68', fontWeight:'bold', fontSize: 15}}>Reviews:</Text>
                         </View>
-                        <View style={{ borderWidth: 2, padding:5, borderRadius:10}}>
+                        <View style={{ borderWidth: 2, padding:5, borderRadius:10, borderColor:'#172c68'}}>
                             <FlatList 
                                 data={item.item.reviews}
                                 renderItem={ (item) => this.renderReview(item)}
@@ -203,18 +204,23 @@ export default class Store extends Component {
                <View style={{ height: this.state.expandeds[item.index] ? null : 0, overflow: 'hidden' }}>
                     <View>
                         <View>
-                            <Text>Add Comment</Text>
+                            <Text style={{color:'#172c68', fontWeight:'bold', fontSize: 15}}>Add Comment</Text>
                         </View>
                         <View style={{flexDirection:'row'}}>
-                            <View style={{ borderWidth:1, borderRadius:20, width:'80%', height:50}}>
+                            <View style={{ borderWidth:2, borderRadius:10, width:'80%', height:50, borderColor:'#172c68'}}>
                                 <TextInput value={this.state.newComment} onChangeText={ (newComment) => this.setState({ newComment })}/>
                             </View>
                             <View style={{justifyContent:'center', alignItems: 'center', marginLeft:5}}>
                                 <Button height={40} width={60} label={'Add'} onPress={ () => this.AddComment(item.item._id)} />
                             </View>
                         </View>
-                        <View>
-                            <RatingStar size={10}/>
+                        <View style={{flexDirection: 'row'}}>
+                            <View>
+                                <Text style={{fontWeight:'bold'}}>Rate:</Text>
+                            </View>
+                            <View>
+                                <RatingStar size={10}/>
+                            </View>
                         </View>
                     </View>             
                 </View>
@@ -233,22 +239,22 @@ export default class Store extends Component {
                             <Image source={{ uri: this.state.profileImage}} style={{ height: 100, width: 100, borderRadius: 50}} />
                         </View>
                         <View>
-                            <View style={[ styles.center]}>
+                            <View style={[ styles.center, {borderBottomWidth:2, paddingBottom:5, borderColor: '#172c68'}]}>
                                 <Text style={{ fontSize: 30, fontWeight: 'bold', color:'#0843a3'}}>{this.state.user.username}'s Store</Text>
                             </View>
                             <View>
                             <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn4.iconfinder.com/data/icons/rcons-phone/16/handset_round-2-512.png'}} style={{ width:20, height:20, marginRight:5}} />
-                                <Text>{this.state.user.phone_number}</Text>
+                                <Text style={{ fontWeight:'bold', fontSize: 15,color:'#172c68'}}>{this.state.user.phone_number}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginVertical: 5}}>
                                 <Image source={{ uri: 'https://cdn3.iconfinder.com/data/icons/email-51/48/25-512.png'}} style={{ width:20, height:20, marginRight:5}} />
-                                <Text>{this.state.user.email}</Text>
+                                <Text style={{ fontWeight:'bold', fontSize: 15,color:'#172c68'}}>{this.state.user.email}</Text>
                             </View>
                         </View>
-                            <View style={{ borderWidth: 0.5, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5, display:this.state.managerDisplay}}>
+                            <View style={{ borderWidth: 3, borderColor:'#0843a3', borderRadius: 10, marginVertical: 5, display:this.state.managerDisplay}}>
                                 <TouchableOpacity onPress={ () => Actions.addProduct()}>
-                                    <Text style={{ textAlign: 'center', fontWeight: 'bold'}}>
+                                    <Text style={{ textAlign: 'center', fontWeight: 'bold', color:'#172c68'}}>
                                         Add New Product
                                     </Text>
                                 </TouchableOpacity>

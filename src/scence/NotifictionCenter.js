@@ -16,23 +16,12 @@ export default class NotifictionCenter extends Component {
 
     constructor(props){
         super(props)  
-        this.state = { newMesseges: [
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "rent request", content: "lorem adas pasdas drem adas pasdas dasd rem adas pasdas dasd rem adas pasdas dasd rem adas pasdas dasdasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },  
-        ],
-        oldMesseges: [
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-            { firstname: "אלון", lastname: "בריימוק", profileImage: "https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png", date: "21.1.18", title: "אישור שותפות", content: "lorem adas pasdas dasdasda dsad" },
-        ],
-        notifiction: [],
-        ref: false
-    
-    }
+        this.state = {  newMesseges: [],
+                        oldMesseges: [ ],
+                        notifiction: [],
+                        ref: false
+                    
+                    }
       
     }
 
@@ -43,7 +32,7 @@ export default class NotifictionCenter extends Component {
         messege.forEach( p  => {
             console.log(p)
             productStore.getProductOrder(p).then( response => {
-                console.log('res:', response)
+                console.log('order res:', response)
                 m = {
                     consumer: {
                         username: response.data.data.consumer.username,
@@ -62,12 +51,22 @@ export default class NotifictionCenter extends Component {
                         from: response.data.data.start_time,
                         to: response.data.data.finish_time,
                     },
-                    id: response.data.data._id
+                    id: response.data.data._id,
+                    order_status: response.data.data.order_status
                 }
-                console.log('m:', m)
-                buffer = this.state.notifiction.slice(0)
-                buffer.push(m)
-                this.setState({ notifiction: buffer, ref: true}, () => console.log(this.state.notifiction))
+                if(m.order_status === 'handled'){
+                    buffer = this.state.newMesseges.slice(0)
+                    buffer.push(m)
+                    this.setState({ newMesseges: buffer, ref: true})
+                }else{
+                    buffer = this.state.oldMesseges.slice(0)
+                    buffer.push(m)
+                    this.setState({ oldMesseges: buffer, ref: true})
+                }
+                // console.log('m:', m)
+                // buffer = this.state.notifiction.slice(0)
+                // buffer.push(m)
+                // this.setState({ notifiction: buffer, ref: true}, () => console.log(this.state.notifiction))
             }).catch( err => console.log(err))
         });
     }
@@ -89,13 +88,25 @@ export default class NotifictionCenter extends Component {
                     <Text style={[ styles.headerTextStyle ]}>NOTIFICTION</Text>
                 </View>
                 <View style={[ styles.marginUserName]}>
-                    {/* <View style={[ styles.rMargin]}>
-                        <Text style={[styles.sectionTitle ]}>חדשים</Text>
-                    </View> */}
+                    <View style={[ { justifyContent:'center', alignItems:'center', marginVertical:10}]}>
+                        <Text style={[styles.sectionTitle ]}>New</Text>
+                    </View>
                     <View style={[ styles.bottomborder]}>
-                        <ScrollView style={[ {height: 350}]} nestedScrollEnabled>
+                        <ScrollView style={[ {maxHeight: 350}]} nestedScrollEnabled>
                             <FlatList
-                                data={this.state.notifiction}
+                                data={this.state.oldMesseges}
+                                renderItem={ (item) => this.renderItemList(item) }
+                                extraData={this.state}
+                            />
+                        </ScrollView>
+                    </View>
+                    <View style={[  { justifyContent:'center', alignItems:'center', marginVertical:10}]}>
+                        <Text style={[styles.sectionTitle ]}>Old</Text>
+                    </View>
+                    <View style={[ styles.bottomborder]}>
+                        <ScrollView style={[ {maxHeight: 350}]} nestedScrollEnabled>
+                            <FlatList
+                                data={this.state.newMesseges}
                                 renderItem={ (item) => this.renderItemList(item) }
                                 extraData={this.state}
                             />

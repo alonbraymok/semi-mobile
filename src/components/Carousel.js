@@ -47,6 +47,7 @@ export default class Carousel extends Component {
     Actions.prodectPage({product})
   }
   renderReview = (item) => {
+    console.log('review:', item)
     return(
       <View  style={{ width: (deviceWidth - 60), padding:10}}>
          <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row'}}>
@@ -70,30 +71,31 @@ export default class Carousel extends Component {
     let barArray = []
     this.props.products.forEach((products, i) => {
       // console.log(products, i)
+      name = products.name.substring(0,10)
       const thisImage = (
         <View nestedScrollEnabled>
         
             <Image key={`products${i}`} source={{uri: products.images[0]}} style={{ width: (deviceWidth - 60), height: 150 }} />
             <View style={{ flexDirection: 'row', width: (deviceWidth - 60), backgroundColor:'#eff9ff', borderRadius: 10, padding:10}}>
                 <View>
-                    <View style={{ maxWidth: 180}}>
-                        <Text style={{fontWeight: '700',fontSize:17}}>{products.name}</Text>
+                    <View style={{ width: 180, borderBottomWidth: 0.5, borderColor: '#0843a3', marginBottom: 5}}>
+                        <Text style={{fontWeight: '700',fontSize:17}}>{name}..</Text>
                     </View>
-                    <View style={{ maxWidth: 180}}>
+                    <View style={{ width: 180, borderBottomWidth: 0.5, borderColor: '#0843a3', marginBottom: 5}}>
                         <Text style={{fontWeight: '500',fontSize:15}}>{products.category.name}</Text>
                     </View>
                     {/* <View style={{maxHeight: 10, maxWidth: 250}}>
                         <Text style={{fontWeight: 'bold'}}>{products.description}</Text>
                     </View> */}
                     <View style={{marginVertical: 10 ,maxWidth: 250}}>
-                        <Text style={{fontWeight: 'bold'}}>{products.plans[0].price} for {products.plans[0].period}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{products.plans[0].price}$ for {products.plans[0].period} days</Text>
                     </View>
                 </View>
-                <View style={{ justifyContent: 'flex-end', alignItems:'center'}}>
+                <View style={{ justifyContent: 'flex-end', alignItems:'center', marginLeft: 5}}>
                     <Button height={50} width={100} label={'RENT!'} onPress={ () => this.goToProductPage(products)}/>
                 </View>
             </View>
-            <View style={{maxHeight: 80, marginTop: 5}}>
+            <View style={{maxHeight: 150, marginTop: 5}}>
               <ScrollView style={{backgroundColor:'#e8f6ff', borderRadius: 10}} nestedScrollEnabled>
                   <FlatList 
                       data={products.reviews}
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
     
     alignItems: 'center',
     justifyContent: 'center',
-    height: 300,
+    height: 350,
     width: 300
   },
   barContainer: {

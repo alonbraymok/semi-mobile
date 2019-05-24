@@ -15,13 +15,18 @@ export default class MessegeDisplayer extends Component {
 
     constructor(props){
         super(props)
-        this.state = { expanded: false}
+        this.state = { expanded: false, displayBtn: 'flex'}
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true);
         }
     }
 
+    componentDidMount = () => {
+        if(this.props.item.item.order_status === 'handled'){
+            this.setState({ displayBtn: 'none'})
+        }
+    }
     
     changeLayout = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -39,6 +44,7 @@ export default class MessegeDisplayer extends Component {
 
     render() {
         console.log('props::', this.props)
+        
         return (
             <View style={[ styles.cardStyle, styles.center ]}>
            
@@ -76,7 +82,7 @@ export default class MessegeDisplayer extends Component {
                             <Text style={[ styles.usernameTextStyle, styles.bold ]}>period: {this.props.item.item.product.plan.period} days</Text>
                         </View>
                     </View>
-                    <View style={[ styles.row, styles.center, styles.margin ]}>
+                    <View style={[ styles.row, styles.center, styles.margin, {display: this.state.displayBtn} ]}>
                         <View style={[styles.margin ]}>
                             <Button height={40} width={100} label={'CONFIRM'} onPress={ () => this.confirmOrder(this.props.item.item.id, this.props.item.item.consumer.username)}/>
                         </View> 

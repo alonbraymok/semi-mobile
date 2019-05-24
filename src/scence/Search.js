@@ -114,15 +114,15 @@ export default class Search extends Component {
       if(reviews[0] !== undefined){
         return(
         <View>
-          <View style={{ borderWidth: 0.5, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row', backgroundColor:'#e8f6ff'}}>
+          <View style={{ borderWidth: 2, borderColor: '#0843a3', borderRadius:5, flexDirection: 'row', backgroundColor:'#e8f6ff'}}>
                <View style={{margin: 5}}>
                <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile(reviews[0].creator.username)}>
                    <Image source={{ uri: reviews[0].creator.profile_image}} style={{ width:20, height:20, marginLeft:15, borderRadius: 10}} />
                </TouchableOpacity>
-                   <Text style={{textAlign:'center', fontWeight:'bold'}}>{reviews[0].creator.username}</Text>
+                   <Text style={{textAlign:'center', fontWeight:'bold', color:'#0843a3'}}>{reviews[0].creator.username}</Text>
                </View>
                <View style={[ ]}>
-                   <Text style={{textAlign:'center', fontWeight:'bold', fontSize:15, marginLeft: 32}}>{reviews[0].content}</Text>
+                   <Text style={{textAlign:'center', fontWeight:'bold', color:'#0843a3', fontSize:15, marginLeft: 32}}>{reviews[0].content}</Text>
                    <RatingStar size={10}/>
                </View>
            </View>  
@@ -133,32 +133,32 @@ export default class Search extends Component {
 
     renderItem = (item) => {
       console.log('item::', item)
-
+      name = item.item.name.substring(0,10)
         return(
             <View style={{borderTopWidth: 1 }}>
                   <View style={{ flexDirection: 'row'}}>
                    <View style={{ margin: 10}}>
-                        <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile('tom lochi')}>
-                              <Image source={{ uri: 'https://cdn.mec.ca/medias/sys_master/high-res/high-res/8796369977374/5044850-BK006.jpg'}} style={{ height: 200, width: 150}} />
+                        <TouchableOpacity onPress={ () => this.moveToProductOwnerProfile(item.item.owner.username)}>
+                              <Image source={{ uri: item.item.images[0]}} style={{ height: 200, width: 150}} />
                         </TouchableOpacity>
                    </View>
                    <View style={{ margin: 20}}>
-                       <View style={{ marginVertical: 3, maxWidth:150}}>
-                            <Text style={{ fontWeight:'bold'}}>{item.item.name}</Text>
+                       <View style={{ marginVertical: 3, maxWidth:150, borderBottomWidth: 0.5, borderColor: '#0843a3'}}>
+                            <Text style={{ fontWeight:'bold', color:'#0843a3'}}>{name}</Text>
                        </View>
-                       <View style={[ {marginVertical: 3,flexDirection: 'row', maxWidth:150} ]}>
-                            <Text style={{ fontWeight:'bold'}}>{item.item.category.name}</Text>
+                       <View style={[ {marginVertical: 3,flexDirection: 'row', maxWidth:150, borderBottomWidth: 0.5, borderColor: '#0843a3'} ]}>
+                            <Text style={{ fontWeight:'bold', color:'#0843a3'}}>{item.item.category.name}</Text>
                             
                        </View>
-                       <View style={{ marginVertical: 3, width: 150}}>
+                       <View style={{ marginVertical: 3, width: 150, borderBottomWidth: 0.5, borderColor: '#0843a3'}}>
                             <ReadMore
                                 numberOfLines={2}
                                 onReady={this._handleTextReady}>
-                                <Text style={{ fontWeight:'bold'}}>{item.item.description}</Text>
+                                <Text style={{ fontWeight:'bold', color:'#0843a3'}}>{item.item.description}</Text>
                             </ReadMore>
                        </View>
                        <View style={[{marginVertical: 10, maxWidth:150} ]}>
-                            <Text style={{ fontWeight:'bold'}}>price per day: {item.item.plans[0].price} $</Text>
+                            <Text style={{ fontWeight:'bold', color:'#000000'}}>price per day: {item.item.plans[0].price} $</Text>
                        </View>
                        <View style={{ alignItems:'flex-end', justifyContent:'flex-end', marginTop: 20}}>
                            <Button height={40} width={60} label={'Rent'} onPress={ () => this.goToProductPage(item.item)}/>
